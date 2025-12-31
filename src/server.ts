@@ -26,6 +26,11 @@ process.on('SIGTERM', gracefulShutdown);
 process.on('SIGINT', gracefulShutdown);
 
 // Start server
+if (!PORT || isNaN(PORT)) {
+  console.error('❌ ERROR: PORT is invalid!', PORT);
+  process.exit(1);
+}
+
 const startServer = async () => {
   try {
     await connectDatabase();
@@ -34,8 +39,6 @@ const startServer = async () => {
     app.listen(PORT, '0.0.0.0', () => {
       logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
       logger.info(`📍 Environment: ${config.nodeEnv}`);
-      logger.info(`🔗 Health check: https://api-production-456e.up.railway.app/health`);
-      logger.info(`📖 Swagger docs:https://api-production-456e.up.railway.app/api-docs`);
     });
   } catch (error) {
     logger.error('❌ Failed to start server:', error);
