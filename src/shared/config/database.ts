@@ -3,12 +3,16 @@ import { Sequelize } from 'sequelize-typescript';
 import { config } from './env';
 import { getAllModels, initializeAssociations } from '../../models';
 
-// console.log(' DEBUG DATABASE_URL:', config.databaseUrl);
-
 const sequelize = new Sequelize(config.databaseUrl, {
   dialect: 'postgres',
-  logging: false, //process.env.NODE_ENV === 'development' ? console.log : false,
+  logging: config.nodeEnv === 'development' ? console.log : false,
   models: getAllModels(),
+  dialectOptions: {
+    ssl: config.nodeEnv === 'production' ? {
+      require: true,
+      rejectUnauthorized: false
+    } : false
+  },
   pool: {
     max: 10,
     min: 2,
@@ -27,11 +31,9 @@ export const connectDatabase = async (): Promise<void> => {
     await sequelize.authenticate();
     console.log('✓ Database connection has been established successfully.');
     
-    // Initialize model associations
     initializeAssociations();
 
-    // Sync models in development (optional)
-    if (process.env.NODE_ENV === 'development' && process.env.AUTO_SYNC === 'true') {
+    if (config.nodeEnv === 'development' && process.env.AUTO_SYNC === 'true') {
       await sequelize.sync({ alter: true });
       console.log('✓ Database models synchronized.');
     }
@@ -51,4 +53,3 @@ export const closeDatabase = async (): Promise<void> => {
 };
 
 export default sequelize;
-
