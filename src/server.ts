@@ -39,7 +39,7 @@ const startServer = async () => {
 app.listen(PORT, '0.0.0.0', () => {
   logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
   logger.info(`📍 Environment: ${config.nodeEnv}`);
-  logger.info(`🔗 Public URL: https://api-production-456e.up.railway.app`);
+  logger.info(`🔗 Public URL: https://api-production-c186.up.railway.app/`);
 });
   } catch (error) {
     logger.error('❌ Failed to start server:', error);
