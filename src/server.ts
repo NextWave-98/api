@@ -6,7 +6,7 @@ import { config } from './shared/config/env';
 import logger from './shared/config/logger';
 import sequelize, { closeDatabase, connectDatabase } from './shared/config/database';
 
-const PORT = config.port;
+const PORT = Number(process.env.PORT) || config.port || 3000;
 
 // Graceful shutdown
 const gracefulShutdown = async () => {
@@ -22,16 +22,16 @@ process.on('SIGINT', gracefulShutdown);
 // Start server
 const startServer = async () => {
   try {
-    // Test database connection
     await connectDatabase();
     logger.info('✅ Database connected successfully');
 
-    app.listen(PORT, () => {
-      logger.info(`🚀 Server running on port ${PORT}`);
+    app.listen(PORT, '0.0.0.0', () => {
+      logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
       logger.info(`📍 Environment: ${config.nodeEnv}`);
-      logger.info(`🔗 Health check: http://localhost:${PORT}/health`);
-      logger.info(`📖 Swagger docs: http://localhost:${PORT}/api-docs`);
-      logger.info(`💡 Running with Sequelize ORM`);
+      if (config.nodeEnv === 'development') {
+        logger.info(`🔗 Health check: http://localhost:${PORT}/health`);
+        logger.info(`📖 Swagger docs: http://localhost:${PORT}/api-docs`);
+      }
     });
   } catch (error) {
     logger.error('❌ Failed to start server:', error);
@@ -40,4 +40,3 @@ const startServer = async () => {
 };
 
 startServer();
-
