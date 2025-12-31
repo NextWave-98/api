@@ -14,41 +14,57 @@ import { setupRoutes } from './routes';
 
 const app: Application = express();
 
-// Security middleware
-app.use(helmet());
+// === CRITICAL: SAFE CORS CONFIGURATION ===
+const allowedOrigins = (() => {
+  if (!config.cors?.origin) {
+    console.warn('⚠️ CORS_ORIGIN not set – allowing all origins temporarily (NOT secure for production)');
+    return [];
+  }
+  return config.cors.origin
+    .split(',')
+    .map((o: string) => o.trim())
+    .filter((o: string) => o.length > 0);
+})();
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, Postman, curl)
+      // Allow non-browser tools (Postman, curl, mobile apps)
       if (!origin) return callback(null, true);
 
-      const allowedOrigins = config.cors.origin.split(',').map(o => o.trim());
-      
+      // If no origins configured, allow all (fallback for testing)
+      if (allowedOrigins.length === 0) return callback(null, true);
+
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log('CORS blocked origin:', origin); // Debug log
-        console.log('Allowed origins:', allowedOrigins);
-        callback(new Error('Not allowed by CORS'));
+        return callback(null, true);
       }
+
+      // Log for debugging
+      console.log('❌ CORS blocked origin:', origin);
+      console.log('✅ Allowed origins:', allowedOrigins);
+
+      return callback(new Error('Not allowed by CORS'));
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-    credentials: true,
+    credentials: true, // Important for cookies/auth
   })
 );
 
-// Rate limiting
+// Security
+app.use(helmet());
+
+// Rate limiting (only on API routes)
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: config.nodeEnv === 'development' ? 10000 : 100000, // Higher limit for dev
-  message: 'Too many requests from this IP, please try again later.',
+  max: config.nodeEnv === 'development' ? 10000 : 200, // Reasonable prod limit
+  message: { error: 'Too many requests, please try again later.' },
   standardHeaders: true,
   legacyHeaders: false,
 });
 app.use(`${config.apiPrefix}/`, limiter);
 
-// Body parsing middleware
+// Body parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
@@ -56,32 +72,32 @@ app.use(cookieParser());
 // Compression
 app.use(compression());
 
-// Logging
+// Logging in development
 if (config.nodeEnv === 'development') {
   app.use(morgan('dev'));
 }
 
-// Health check
+// Health check – works even if DB fails
 app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,
-    message: 'Server is running',
+    message: 'Server is healthy',
+    environment: config.nodeEnv,
     timestamp: new Date().toISOString(),
   });
 });
 
-// Swagger documentation
+// Swagger – will now work because app starts properly
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Static files for sample downloads
+// Static files
 app.use('/samples', express.static('samples'));
 
-// Setup routes
+// API Routes
 setupRoutes(app);
 
-// Error handlers
+// Error handlers (must be last)
 app.use(notFoundHandler);
 app.use(errorHandler);
 
 export default app;
-
