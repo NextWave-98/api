@@ -36,10 +36,10 @@ const startServer = async () => {
     await connectDatabase();
     logger.info('✅ Database connected successfully');
 
-  app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', () => {
   logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
   logger.info(`📍 Environment: ${config.nodeEnv}`);
-  // any other logs you want
+  logger.info(`🔗 Public URL: https://api-production-456e.up.railway.app`);
 });
   } catch (error) {
     logger.error('❌ Failed to start server:', error);
