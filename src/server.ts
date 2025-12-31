@@ -28,10 +28,8 @@ const startServer = async () => {
     app.listen(PORT, '0.0.0.0', () => {
       logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
       logger.info(`📍 Environment: ${config.nodeEnv}`);
-      if (config.nodeEnv === 'development') {
-        logger.info(`🔗 Health check: http://localhost:${PORT}/health`);
-        logger.info(`📖 Swagger docs: http://localhost:${PORT}/api-docs`);
-      }
+      logger.info(`🔗 Health check: https://api-production-456e.up.railway.app/health`);
+      logger.info(`📖 Swagger docs:https://api-production-456e.up.railway.app/api-docs`);
     });
   } catch (error) {
     logger.error('❌ Failed to start server:', error);
