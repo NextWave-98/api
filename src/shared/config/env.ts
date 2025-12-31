@@ -1,20 +1,5 @@
 import dotenv from 'dotenv';
-import path from 'path';
-
-// Load .env file only in development
-if (process.env.NODE_ENV !== 'production') {
-  dotenv.config({ path: path.resolve(process.cwd(), '.env') });
-}
-
-// Validate required environment variables
-const requiredEnvVars = ['DATABASE_URL', 'JWT_SECRET', 'JWT_REFRESH_SECRET'];
-const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
-
-if (missingEnvVars.length > 0) {
-  console.error(`❌ Missing required environment variables: ${missingEnvVars.join(', ')}`);
-  console.error(`Current DATABASE_URL: ${process.env.DATABASE_URL || 'NOT SET'}`);
-  process.exit(1);
-}
+dotenv.config();
 
 export const config = {
   port: parseInt(process.env.PORT || '3000', 10),

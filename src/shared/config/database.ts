@@ -3,11 +3,6 @@ import { Sequelize } from 'sequelize-typescript';
 import { config } from './env';
 import { getAllModels, initializeAssociations } from '../../models';
 
-console.log('🔍 Database Configuration:');
-console.log(`- Environment: ${config.nodeEnv}`);
-console.log(`- Database URL exists: ${!!config.databaseUrl}`);
-console.log(`- Database URL preview: ${config.databaseUrl?.substring(0, 20)}...`);
-
 const sequelize = new Sequelize(config.databaseUrl, {
   dialect: 'postgres',
   logging: config.nodeEnv === 'development' ? console.log : false,
@@ -33,7 +28,6 @@ const sequelize = new Sequelize(config.databaseUrl, {
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    console.log('🔌 Attempting to connect to database...');
     await sequelize.authenticate();
     console.log('✓ Database connection has been established successfully.');
     
@@ -45,7 +39,6 @@ export const connectDatabase = async (): Promise<void> => {
     }
   } catch (error) {
     console.error('✗ Unable to connect to the database:', error);
-    console.error('💡 Check your DATABASE_URL in Railway variables');
     process.exit(1);
   }
 };
