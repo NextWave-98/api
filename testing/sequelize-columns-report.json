@@ -1,0 +1,752 @@
+{
+  "timestamp": "2025-12-16T04:07:38.725Z",
+  "summary": {
+    "totalModels": 53,
+    "totalTables": 55,
+    "missingColumns": 0,
+    "extraColumns": 148
+  },
+  "missingColumns": [],
+  "extraColumns": [
+    {
+      "table": "users",
+      "column": "staff",
+      "type": "character varying"
+    },
+    {
+      "table": "warehouse_staff",
+      "column": "staff_id",
+      "type": "uuid"
+    },
+    {
+      "table": "branch_staff",
+      "column": "staff_id",
+      "type": "uuid"
+    },
+    {
+      "table": "inventory_zones",
+      "column": "location_id",
+      "type": "uuid"
+    },
+    {
+      "table": "inventory_zones",
+      "column": "name",
+      "type": "character varying"
+    },
+    {
+      "table": "branch_targets",
+      "column": "sales_target",
+      "type": "numeric"
+    },
+    {
+      "table": "branch_targets",
+      "column": "revenue_target",
+      "type": "numeric"
+    },
+    {
+      "table": "branch_targets",
+      "column": "customer_target",
+      "type": "integer"
+    },
+    {
+      "table": "branch_targets",
+      "column": "achieved_sales",
+      "type": "numeric"
+    },
+    {
+      "table": "branch_targets",
+      "column": "achieved_revenue",
+      "type": "numeric"
+    },
+    {
+      "table": "branch_targets",
+      "column": "achieved_customers",
+      "type": "integer"
+    },
+    {
+      "table": "products",
+      "column": "compatibility",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "created_by",
+      "type": "uuid"
+    },
+    {
+      "table": "job_sheets",
+      "column": "final_cost",
+      "type": "numeric"
+    },
+    {
+      "table": "job_sheets",
+      "column": "estimated_completion_date",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "job_sheets",
+      "column": "completed_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "job_sheets",
+      "column": "notes",
+      "type": "text"
+    },
+    {
+      "table": "job_sheets",
+      "column": "job_number",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "repairs",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "parts",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "products",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "payments",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "status_history",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "notifications",
+      "type": "character varying"
+    },
+    {
+      "table": "job_sheets",
+      "column": "warranty_claim",
+      "type": "character varying"
+    },
+    {
+      "table": "repairs",
+      "column": "labor_cost",
+      "type": "numeric"
+    },
+    {
+      "table": "repairs",
+      "column": "performed_by",
+      "type": "uuid"
+    },
+    {
+      "table": "job_status_history",
+      "column": "changed_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "job_status_history",
+      "column": "remarks",
+      "type": "character varying"
+    },
+    {
+      "table": "parts",
+      "column": "part_code",
+      "type": "character varying"
+    },
+    {
+      "table": "parts",
+      "column": "max_stock_level",
+      "type": "integer"
+    },
+    {
+      "table": "parts",
+      "column": "inventory",
+      "type": "character varying"
+    },
+    {
+      "table": "parts",
+      "column": "job_sheet_parts",
+      "type": "character varying"
+    },
+    {
+      "table": "parts",
+      "column": "stock_movements",
+      "type": "character varying"
+    },
+    {
+      "table": "stock_movements",
+      "column": "inventory_id",
+      "type": "uuid"
+    },
+    {
+      "table": "stock_movements",
+      "column": "reason",
+      "type": "text"
+    },
+    {
+      "table": "stock_movements",
+      "column": "created_by",
+      "type": "uuid"
+    },
+    {
+      "table": "stock_movements",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "payments",
+      "column": "reference",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "customer_name",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "customer_phone",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "customer_email",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "sale_channel",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "subtotal",
+      "type": "numeric"
+    },
+    {
+      "table": "sales",
+      "column": "discount",
+      "type": "numeric"
+    },
+    {
+      "table": "sales",
+      "column": "discount_type",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "discount_reason",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "tax",
+      "type": "numeric"
+    },
+    {
+      "table": "sales",
+      "column": "tax_rate",
+      "type": "numeric"
+    },
+    {
+      "table": "sales",
+      "column": "payment_method",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "payment_reference",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "invoice_url",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "completed_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "sales",
+      "column": "cancelled_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "sales",
+      "column": "items",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "payments",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "refunds",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "warranty_cards",
+      "type": "character varying"
+    },
+    {
+      "table": "sales",
+      "column": "notifications",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_items",
+      "column": "serial_number",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_items",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "sale_items",
+      "column": "product_name",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_items",
+      "column": "product_s_k_u",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_items",
+      "column": "cost_price",
+      "type": "numeric"
+    },
+    {
+      "table": "sale_items",
+      "column": "discount",
+      "type": "numeric"
+    },
+    {
+      "table": "sale_items",
+      "column": "warranty_card",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_payments",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "sale_payments",
+      "column": "reference",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_payments",
+      "column": "status",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_payments",
+      "column": "received_by_id",
+      "type": "character varying"
+    },
+    {
+      "table": "sale_refunds",
+      "column": "status",
+      "type": "USER-DEFINED"
+    },
+    {
+      "table": "sale_refunds",
+      "column": "approved_by",
+      "type": "uuid"
+    },
+    {
+      "table": "sale_refunds",
+      "column": "processed_by",
+      "type": "uuid"
+    },
+    {
+      "table": "sale_refunds",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "suppliers",
+      "column": "contact_person",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_products",
+      "column": "is_preferred",
+      "type": "boolean"
+    },
+    {
+      "table": "supplier_products",
+      "column": "supplier_s_k_u",
+      "type": "character varying"
+    },
+    {
+      "table": "po_status_history",
+      "column": "notes",
+      "type": "text"
+    },
+    {
+      "table": "po_status_history",
+      "column": "created_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "po_status_history",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "supplier_payments",
+      "column": "reference",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_payments",
+      "column": "bank_name",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_payments",
+      "column": "check_number",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_payments",
+      "column": "transaction_id",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_payments",
+      "column": "attachments",
+      "type": "jsonb"
+    },
+    {
+      "table": "supplier_payments",
+      "column": "paid_by",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_returns",
+      "column": "returned_by",
+      "type": "uuid"
+    },
+    {
+      "table": "supplier_returns",
+      "column": "items",
+      "type": "character varying"
+    },
+    {
+      "table": "supplier_return_items",
+      "column": "reason",
+      "type": "text"
+    },
+    {
+      "table": "warranty_cards",
+      "column": "product_s_k_u",
+      "type": "character varying"
+    },
+    {
+      "table": "warranty_cards",
+      "column": "claims",
+      "type": "character varying"
+    },
+    {
+      "table": "warranty_claims",
+      "column": "product_id",
+      "type": "uuid"
+    },
+    {
+      "table": "warranty_claims",
+      "column": "customer_id",
+      "type": "uuid"
+    },
+    {
+      "table": "warranty_claims",
+      "column": "claim_type",
+      "type": "USER-DEFINED"
+    },
+    {
+      "table": "warranty_claims",
+      "column": "resolution",
+      "type": "text"
+    },
+    {
+      "table": "warranty_claims",
+      "column": "created_by",
+      "type": "uuid"
+    },
+    {
+      "table": "warranty_claims",
+      "column": "approved_by",
+      "type": "uuid"
+    },
+    {
+      "table": "stock_releases",
+      "column": "items",
+      "type": "character varying"
+    },
+    {
+      "table": "stock_release_items",
+      "column": "quantity",
+      "type": "numeric"
+    },
+    {
+      "table": "warehouse_inventory",
+      "column": "zone_id",
+      "type": "uuid"
+    },
+    {
+      "table": "warehouse_inventory",
+      "column": "batch_number",
+      "type": "character varying"
+    },
+    {
+      "table": "warehouse_inventory",
+      "column": "expiry_date",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "stock_transfers",
+      "column": "initiated_by",
+      "type": "uuid"
+    },
+    {
+      "table": "stock_transfers",
+      "column": "items",
+      "type": "character varying"
+    },
+    {
+      "table": "stock_transfer_items",
+      "column": "quantity",
+      "type": "numeric"
+    },
+    {
+      "table": "stock_transfer_items",
+      "column": "batch_number",
+      "type": "character varying"
+    },
+    {
+      "table": "notifications",
+      "column": "user_id",
+      "type": "uuid"
+    },
+    {
+      "table": "notifications",
+      "column": "reference_type",
+      "type": "character varying"
+    },
+    {
+      "table": "notifications",
+      "column": "reference_id",
+      "type": "uuid"
+    },
+    {
+      "table": "notifications",
+      "column": "is_read",
+      "type": "boolean"
+    },
+    {
+      "table": "notifications",
+      "column": "read_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "notifications",
+      "column": "sent_via",
+      "type": "USER-DEFINED"
+    },
+    {
+      "table": "notification_settings",
+      "column": "admin_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "notification_settings",
+      "column": "manager_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "notification_settings",
+      "column": "customer_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "notification_settings",
+      "column": "staff_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "notification_settings",
+      "column": "sms_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "notification_settings",
+      "column": "email_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "notification_settings",
+      "column": "whatsapp_enabled",
+      "type": "boolean"
+    },
+    {
+      "table": "activity_logs",
+      "column": "entity_type",
+      "type": "character varying"
+    },
+    {
+      "table": "activity_logs",
+      "column": "entity_id",
+      "type": "uuid"
+    },
+    {
+      "table": "activity_logs",
+      "column": "description",
+      "type": "text"
+    },
+    {
+      "table": "activity_logs",
+      "column": "metadata",
+      "type": "jsonb"
+    },
+    {
+      "table": "sms_logs",
+      "column": "phone_number",
+      "type": "character varying"
+    },
+    {
+      "table": "sms_logs",
+      "column": "provider",
+      "type": "character varying"
+    },
+    {
+      "table": "sms_logs",
+      "column": "provider_message_id",
+      "type": "character varying"
+    },
+    {
+      "table": "sms_logs",
+      "column": "error_message",
+      "type": "text"
+    },
+    {
+      "table": "sms_logs",
+      "column": "delivered_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "sms_logs",
+      "column": "updated_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "product_returns",
+      "column": "condition",
+      "type": "USER-DEFINED"
+    },
+    {
+      "table": "product_returns",
+      "column": "action_taken",
+      "type": "USER-DEFINED"
+    },
+    {
+      "table": "product_returns",
+      "column": "source_id",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "return_reason",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "return_category",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "condition_notes",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "inspected_by",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "inspected_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "product_returns",
+      "column": "inspection_notes",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "approval_notes",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "resolution_type",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "resolution_details",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "resolution_date",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "product_returns",
+      "column": "sale_refund_id",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "supplier_return_id",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "stock_transfer_id",
+      "type": "character varying"
+    },
+    {
+      "table": "product_returns",
+      "column": "documents",
+      "type": "jsonb"
+    },
+    {
+      "table": "product_returns",
+      "column": "completed_at",
+      "type": "timestamp with time zone"
+    },
+    {
+      "table": "product_returns",
+      "column": "notifications",
+      "type": "character varying"
+    }
+  ]
+}

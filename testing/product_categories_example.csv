@@ -1,0 +1,11 @@
+name,description,parentName,isActive,displayOrder
+Electronics,Electronic devices and accessories,,true,1
+Smartphones,Latest smartphones,Electronics,true,1
+Laptops,Portable computers,Electronics,true,2
+Clothing,Apparel and fashion items,,true,2
+Men's Clothing,Men's fashion,Clothing,true,1
+Women's Clothing,Women's fashion,Clothing,true,2
+T-Shirts,Casual t-shirts,Men's Clothing,true,1
+Jeans,Denim jeans,Men's Clothing,true,2
+Dresses,Elegant dresses,Women's Clothing,true,1
+Skirts,Fashion skirts,Women's Clothing,true,2

@@ -1,0 +1,32 @@
+name,description,parentName,isActive,displayOrder
+Smartphones,Latest mobile phones and smartphones,,true,1
+Apple iPhones,Apple iPhone series,Smartphones,true,1
+Samsung Galaxy,Samsung Galaxy series,Smartphones,true,2
+Google Pixel,Google Pixel phones,Smartphones,true,3
+OnePlus,OnePlus smartphones,Smartphones,true,4
+Xiaomi,Xiaomi and Redmi phones,Smartphones,true,5
+Accessories,Phone accessories and peripherals,,true,2
+Cases & Covers,Phone cases and protective covers,Accessories,true,1
+Screen Protectors,Tempered glass and screen protectors,Accessories,true,2
+Chargers & Cables,Charging cables and adapters,Accessories,true,3
+Power Banks,Portable power banks,Accessories,true,4
+Headphones & Earbuds,Audio accessories,Accessories,true,5
+Memory Cards,SD cards and storage,Accessories,true,6
+Phone Stands & Holders,Stands and holders for phones,Accessories,true,7
+Parts & Components,Replacement parts and components,,true,3
+Batteries,Replacement batteries,Parts & Components,true,1
+Screens,LCD and OLED replacement screens,Parts & Components,true,2
+Chargers,Replacement charging ports,Parts & Components,true,3
+Cameras,Replacement camera modules,Parts & Components,true,4
+Speakers,Replacement speakers,Parts & Components,true,5
+Services,Phone repair and service offerings,,true,4
+Screen Repair,Cracked screen replacement,Services,true,1
+Battery Replacement,Battery replacement service,Services,true,2
+Water Damage Repair,Water damage repair services,Services,true,3
+Software Issues,Software troubleshooting and repair,Services,true,4
+Phone Unlocking,Network unlocking services,Services,true,5
+Data Recovery,Data recovery services,Services,true,6
+Refurbished Phones,Refurbished and used phones,,true,5
+Budget Phones,Affordable refurbished phones,Refurbished Phones,true,1
+Mid-Range Phones,Mid-range refurbished phones,Refurbished Phones,true,2
+Premium Refurbished,High-end refurbished phones,Refurbished Phones,true,3

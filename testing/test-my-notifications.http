@@ -1,0 +1,47 @@
+### Test Notification Endpoints
+### Make sure to replace YOUR_TOKEN with actual Bearer token from login
+
+### 1. Login as Admin
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@123.com",
+  "password": "Admin@123"
+}
+
+### 2. Get My Notifications (Use token from login response)
+GET http://localhost:3000/api/notifications/my?status=PENDING&limit=5
+Authorization: Bearer YOUR_TOKEN
+
+### 3. Get All My Notifications
+GET http://localhost:3000/api/notifications/my?limit=10
+Authorization: Bearer YOUR_TOKEN
+
+### 4. Get My Sent Notifications
+GET http://localhost:3000/api/notifications/my?status=SENT&limit=5
+Authorization: Bearer YOUR_TOKEN
+
+### 5. Get Notification Settings
+GET http://localhost:3000/api/notifications/settings
+Authorization: Bearer YOUR_TOKEN
+
+### 6. Create Another Test Notification for Yourself
+POST http://localhost:3000/api/notifications
+Authorization: Bearer YOUR_TOKEN
+Content-Type: application/json
+
+{
+  "type": "JOB_CREATED",
+  "title": "Another Test Notification",
+  "message": "This is another test to verify /my endpoint works",
+  "method": "SMS",
+  "recipient": "0771234567",
+  "recipientType": "ADMIN",
+  "recipientUserId": "d8ba1bc3-7417-4c1f-9fc2-6dbf3d1d92cb",
+  "priority": "HIGH"
+}
+
+### 7. Get All Notifications (Admin view)
+GET http://localhost:3000/api/notifications?limit=10
+Authorization: Bearer YOUR_TOKEN

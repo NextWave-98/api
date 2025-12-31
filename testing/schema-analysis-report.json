@@ -1,0 +1,303 @@
+{
+  "timestamp": "2025-12-17T15:29:50.372Z",
+  "prismaTablesCount": 52,
+  "expectedModelsCount": 52,
+  "issues": {
+    "missingTables": [
+      "notification_settings",
+      "role_permissions"
+    ],
+    "missingColumns": [
+      {
+        "table": "users",
+        "columns": [
+          "role_id",
+          "location_id",
+          "is_active",
+          "refresh_token",
+          "last_login"
+        ]
+      },
+      {
+        "table": "staff",
+        "columns": [
+          "staff_id",
+          "user_id",
+          "nic_number",
+          "date_of_birth",
+          "phone_number",
+          "additional_phone",
+          "emergency_contact",
+          "emergency_name",
+          "emergency_relation",
+          "joining_date",
+          "profile_image",
+          "cloudinary_public_id"
+        ]
+      },
+      {
+        "table": "locations",
+        "columns": [
+          "location_code",
+          "location_type",
+          "is_active",
+          "warehouse_id",
+          "branch_id"
+        ]
+      },
+      {
+        "table": "warehouses",
+        "columns": [
+          "warehouse_code",
+          "warehouse_type",
+          "is_main_warehouse",
+          "is_active",
+          "postal_code",
+          "alternate_phone",
+          "manager_name",
+          "manager_phone",
+          "manager_email",
+          "total_area",
+          "storage_capacity",
+          "has_cold_storage",
+          "has_security_system",
+          "has_loading_dock",
+          "has_forklift",
+          "parking_spaces",
+          "operating_hours",
+          "opening_date",
+          "closure_date",
+          "closure_reason"
+        ]
+      },
+      {
+        "table": "branches",
+        "columns": [
+          "branch_code",
+          "branch_type",
+          "has_service_center",
+          "is_active",
+          "short_name",
+          "postal_code",
+          "alternate_phone",
+          "manager_name",
+          "manager_phone",
+          "manager_email",
+          "business_reg_no",
+          "tax_id",
+          "has_showroom",
+          "has_parking",
+          "floor_area",
+          "daily_capacity",
+          "technician_count",
+          "service_counters",
+          "operating_hours",
+          "monthly_target",
+          "yearly_target",
+          "opening_date",
+          "closure_date",
+          "closure_reason"
+        ]
+      },
+      {
+        "table": "products",
+        "columns": [
+          "product_code",
+          "category_id",
+          "unit_price",
+          "cost_price",
+          "tax_rate",
+          "wholesale_price",
+          "margin_percentage",
+          "min_stock_level",
+          "max_stock_level",
+          "reorder_level",
+          "reorder_quantity",
+          "warranty_months",
+          "warranty_period",
+          "warranty_type",
+          "warranty_terms",
+          "image_url",
+          "cloudinary_id",
+          "primary_image",
+          "quality_grade",
+          "is_discontinued",
+          "discontinued_date",
+          "tags"
+        ]
+      },
+      {
+        "table": "job_sheets",
+        "columns": [
+          "job_number",
+          "customer_id",
+          "device_id",
+          "location_id",
+          "created_by_id",
+          "issue_description",
+          "received_date",
+          "estimated_cost",
+          "actual_cost",
+          "labour_cost",
+          "parts_cost",
+          "discount_amount",
+          "total_amount",
+          "paid_amount",
+          "balance_amount",
+          "assigned_to_id",
+          "customer_remarks",
+          "technician_remarks",
+          "device_condition",
+          "device_password",
+          "backup_taken",
+          "expected_date",
+          "completed_date",
+          "delivered_date",
+          "warranty_period",
+          "warranty_expiry"
+        ]
+      },
+      {
+        "table": "sales",
+        "columns": [
+          "sale_number",
+          "location_id",
+          "sold_by_id",
+          "sale_type",
+          "sale_channel",
+          "tax_rate",
+          "total_amount",
+          "paid_amount",
+          "balance_amount",
+          "payment_status",
+          "customer_id",
+          "customer_name",
+          "customer_phone",
+          "customer_email",
+          "discount_type",
+          "discount_reason",
+          "payment_method",
+          "payment_reference",
+          "invoice_url"
+        ]
+      },
+      {
+        "table": "warranty_cards",
+        "columns": [
+          "warranty_number",
+          "sale_id",
+          "sale_item_id",
+          "product_id",
+          "product_name",
+          "product_code",
+          "customer_name",
+          "customer_phone",
+          "location_id",
+          "warranty_type",
+          "warranty_months",
+          "start_date",
+          "expiry_date",
+          "activated_at",
+          "product_sku",
+          "serial_number",
+          "customer_id",
+          "customer_email",
+          "voided_at",
+          "void_reason"
+        ]
+      },
+      {
+        "table": "notifications",
+        "columns": [
+          "recipient_type",
+          "priority",
+          "customer_id",
+          "job_sheet_id",
+          "sale_id",
+          "product_return_id",
+          "event_type",
+          "recipient_user_id",
+          "recipient_role",
+          "workflow_stage",
+          "parent_notification_id",
+          "retry_count",
+          "last_retry_at",
+          "failure_reason",
+          "metadata",
+          "sent_at"
+        ]
+      },
+      {
+        "table": "purchase_orders",
+        "columns": [
+          "po_number",
+          "supplier_id",
+          "order_date",
+          "payment_status",
+          "tax_amount",
+          "shipping_cost",
+          "discount_amount",
+          "total_amount",
+          "paid_amount",
+          "balance_amount",
+          "expected_date",
+          "received_date",
+          "approved_at",
+          "payment_terms",
+          "shipping_method",
+          "shipping_address",
+          "internal_notes",
+          "approved_by"
+        ]
+      },
+      {
+        "table": "supplier_returns",
+        "columns": [
+          "return_number",
+          "supplier_id",
+          "return_date",
+          "return_type",
+          "total_amount",
+          "refund_amount",
+          "purchase_order_id",
+          "reason_description",
+          "refund_method",
+          "refund_date",
+          "replacement_issued",
+          "approved_by",
+          "approved_at"
+        ]
+      },
+      {
+        "table": "product_returns",
+        "columns": [
+          "return_number",
+          "return_date",
+          "location_id",
+          "source_type",
+          "category",
+          "sale_id",
+          "warranty_claim_id",
+          "job_sheet_id",
+          "goods_receipt_id",
+          "customer_id",
+          "product_id",
+          "reason",
+          "reason_description",
+          "resolution_type",
+          "inspected_by",
+          "inspected_at",
+          "inspection_notes",
+          "approved_by",
+          "approved_at",
+          "completed_at",
+          "created_by_id"
+        ]
+      }
+    ],
+    "incorrectTypes": [],
+    "missingIndexes": [],
+    "missingRelations": [],
+    "enumIssues": []
+  }
+}

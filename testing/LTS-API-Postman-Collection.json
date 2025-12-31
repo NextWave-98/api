@@ -1,0 +1,1617 @@
+{
+  "info": {
+    "name": "LTS API - Complete Testing Collection",
+    "description": "Complete API testing collection for LTS (Laptop & Tech Service) API with all modules",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "mainBranchId",
+      "value": "6f694ca7-ca23-4778-afa0-1966ab05edd2",
+      "type": "string"
+    },
+    {
+      "key": "northBranchId",
+      "value": "87bf051d-f092-4d0d-9464-d9d68834507a",
+      "type": "string"
+    },
+    {
+      "key": "southBranchId",
+      "value": "ec2ddfc2-776e-440c-9fbb-5f07b907ab57",
+      "type": "string"
+    },
+    {
+      "key": "customerId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "deviceId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "partId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "jobSheetId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "categoryId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "supplierId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "purchaseOrderId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('token', jsonData.data.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"your_password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Branches",
+      "item": [
+        {
+          "name": "Get All Branches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/branches",
+              "host": ["{{baseUrl}}"],
+              "path": ["branches"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Branch By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/branches/{{mainBranchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["branches", "{{mainBranchId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('customerId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"0771234567\",\n  \"alternatePhone\": \"0772345678\",\n  \"address\": \"123 Main Street, Colombo\",\n  \"city\": \"Colombo\",\n  \"nicNumber\": \"199012345678\",\n  \"branchId\": \"{{mainBranchId}}\",\n  \"customerType\": \"REGULAR\",\n  \"loyaltyPoints\": 100,\n  \"notes\": \"VIP customer, prefer SMS notifications\",\n  \"isActive\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "John",
+                  "disabled": true
+                },
+                {
+                  "key": "customerType",
+                  "value": "REGULAR",
+                  "disabled": true
+                },
+                {
+                  "key": "branchId",
+                  "value": "{{mainBranchId}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", "{{customerId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"customerType\": \"VIP\",\n  \"loyaltyPoints\": 200,\n  \"notes\": \"Updated VIP status\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", "{{customerId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", "{{customerId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Devices",
+      "item": [
+        {
+          "name": "Create Device",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('deviceId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"deviceType\": \"MOBILE\",\n  \"brand\": \"Samsung\",\n  \"model\": \"Galaxy S21\",\n  \"serialNumber\": \"SN123456789\",\n  \"imei\": \"123456789012345\",\n  \"color\": \"Phantom Gray\",\n  \"purchaseDate\": \"2023-01-15T00:00:00.000Z\",\n  \"warrantyExpiry\": \"2024-01-15T00:00:00.000Z\",\n  \"notes\": \"Device has minor scratches on back\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/devices",
+              "host": ["{{baseUrl}}"],
+              "path": ["devices"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Devices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/devices?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["devices"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "customerId",
+                  "value": "{{customerId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "deviceType",
+                  "value": "MOBILE",
+                  "disabled": true
+                },
+                {
+                  "key": "brand",
+                  "value": "Samsung",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Device By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/devices/{{deviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["devices", "{{deviceId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Device",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"color\": \"Black\",\n  \"notes\": \"Back panel replaced\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/devices/{{deviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["devices", "{{deviceId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Device",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/devices/{{deviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["devices", "{{deviceId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Parts",
+      "item": [
+        {
+          "name": "Create Part",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('partId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Samsung Galaxy S21 LCD Screen\",\n  \"description\": \"Original AMOLED display with digitizer\",\n  \"category\": \"SCREEN\",\n  \"brand\": \"Samsung\",\n  \"model\": \"Galaxy S21\",\n  \"compatibility\": \"Galaxy S21, S21+\",\n  \"unitPrice\": 15000,\n  \"costPrice\": 12000,\n  \"minStockLevel\": 5,\n  \"reorderLevel\": 10,\n  \"supplier\": \"Tech Parts Sri Lanka\",\n  \"supplierContact\": \"0771234567\",\n  \"warrantyMonths\": 6,\n  \"isActive\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/parts",
+              "host": ["{{baseUrl}}"],
+              "path": ["parts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Battery Part",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Samsung Galaxy S21 Battery\",\n  \"description\": \"Original 4000mAh battery\",\n  \"category\": \"BATTERY\",\n  \"brand\": \"Samsung\",\n  \"model\": \"Galaxy S21\",\n  \"compatibility\": \"Galaxy S21 series\",\n  \"unitPrice\": 5000,\n  \"costPrice\": 3500,\n  \"minStockLevel\": 10,\n  \"reorderLevel\": 15,\n  \"supplier\": \"Mobile Parts LK\",\n  \"supplierContact\": \"0772345678\",\n  \"warrantyMonths\": 3,\n  \"isActive\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/parts",
+              "host": ["{{baseUrl}}"],
+              "path": ["parts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Parts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/parts?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["parts"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "Samsung",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "SCREEN",
+                  "disabled": true
+                },
+                {
+                  "key": "brand",
+                  "value": "Samsung",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Part By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/parts/{{partId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["parts", "{{partId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Part",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unitPrice\": 16000,\n  \"costPrice\": 12500,\n  \"minStockLevel\": 8\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/parts/{{partId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["parts", "{{partId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Part",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/parts/{{partId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["parts", "{{partId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inventory",
+      "item": [
+        {
+          "name": "Create Inventory",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partId\": \"{{partId}}\",\n  \"branchId\": \"{{mainBranchId}}\",\n  \"quantity\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inventory",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Inventory",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inventory?branchId={{mainBranchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory"],
+              "query": [
+                {
+                  "key": "branchId",
+                  "value": "{{mainBranchId}}"
+                },
+                {
+                  "key": "partId",
+                  "value": "{{partId}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Adjust Stock",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partId\": \"{{partId}}\",\n  \"branchId\": \"{{mainBranchId}}\",\n  \"quantity\": 10,\n  \"movementType\": \"IN\",\n  \"notes\": \"Stock replenishment\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inventory/adjust",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "adjust"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Transfer Stock",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partId\": \"{{partId}}\",\n  \"fromBranchId\": \"{{mainBranchId}}\",\n  \"toBranchId\": \"{{northBranchId}}\",\n  \"quantity\": 5,\n  \"notes\": \"Transfer to North Branch\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/inventory/transfer",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "transfer"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Low Stock Items",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/inventory/low-stock?branchId={{mainBranchId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["inventory", "low-stock"],
+              "query": [
+                {
+                  "key": "branchId",
+                  "value": "{{mainBranchId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "JobSheets",
+      "item": [
+        {
+          "name": "Create JobSheet",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('jobSheetId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": \"{{customerId}}\",\n  \"deviceId\": \"{{deviceId}}\",\n  \"branchId\": \"{{mainBranchId}}\",\n  \"issueDescription\": \"Screen cracked and touch not working properly\",\n  \"deviceCondition\": \"Screen cracked at top right corner, slight dent on frame\",\n  \"accessories\": \"Charger, case\",\n  \"estimatedCost\": 18000,\n  \"priority\": \"HIGH\",\n  \"expectedCompletionDate\": \"2025-11-25T00:00:00.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All JobSheets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING",
+                  "disabled": true
+                },
+                {
+                  "key": "branchId",
+                  "value": "{{mainBranchId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "customerId",
+                  "value": "{{customerId}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get JobSheet By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets/{{jobSheetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets", "{{jobSheetId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update JobSheet",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issueDescription\": \"Screen cracked and touch not working properly. Battery also draining fast.\",\n  \"estimatedCost\": 23000,\n  \"priority\": \"URGENT\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets/{{jobSheetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets", "{{jobSheetId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update JobSheet Status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"IN_PROGRESS\",\n  \"notes\": \"Started screen replacement\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets/{{jobSheetId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets", "{{jobSheetId}}", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Part to JobSheet",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"partId\": \"{{partId}}\",\n  \"quantity\": 1,\n  \"unitPrice\": 15000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets/{{jobSheetId}}/parts",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets", "{{jobSheetId}}", "parts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete JobSheet",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/jobsheets/{{jobSheetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["jobsheets", "{{jobSheetId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Repairs",
+      "item": [
+        {
+          "name": "Create Repair",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobSheetId\": \"{{jobSheetId}}\",\n  \"repairType\": \"Screen Replacement\",\n  \"description\": \"Replace cracked LCD screen with new original display\",\n  \"cost\": 15000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/repairs",
+              "host": ["{{baseUrl}}"],
+              "path": ["repairs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Repairs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/repairs",
+              "host": ["{{baseUrl}}"],
+              "path": ["repairs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Repair By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/repairs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["repairs", ":id"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Repair",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"COMPLETED\",\n  \"description\": \"Screen replacement completed successfully. Tested all functions.\",\n  \"cost\": 15000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/repairs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["repairs", ":id"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Create Payment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobSheetId\": \"{{jobSheetId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"amount\": 10000,\n  \"paymentMethod\": \"CASH\",\n  \"transactionReference\": \"TXN123456\",\n  \"notes\": \"Partial payment for screen replacement\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Card Payment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jobSheetId\": \"{{jobSheetId}}\",\n  \"customerId\": \"{{customerId}}\",\n  \"amount\": 8000,\n  \"paymentMethod\": \"CARD\",\n  \"transactionReference\": \"CARD789012\",\n  \"notes\": \"Final payment via credit card\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payments",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Payments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "customerId",
+                  "value": "{{customerId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "jobSheetId",
+                  "value": "{{jobSheetId}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/payments/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["payments", ":id"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Product Categories",
+      "item": [
+        {
+          "name": "Create Product Category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('categoryId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mobile Phone Parts\",\n  \"description\": \"All mobile phone replacement parts and accessories\",\n  \"image\": \"https://example.com/images/mobile-parts.jpg\",\n  \"isActive\": true,\n  \"displayOrder\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/productcategories",
+              "host": ["{{baseUrl}}"],
+              "path": ["productcategories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Sub Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Samsung Parts\",\n  \"description\": \"Samsung mobile phone parts\",\n  \"parentId\": \"{{categoryId}}\",\n  \"isActive\": true,\n  \"displayOrder\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/productcategories",
+              "host": ["{{baseUrl}}"],
+              "path": ["productcategories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/productcategories",
+              "host": ["{{baseUrl}}"],
+              "path": ["productcategories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/productcategories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["productcategories", "{{categoryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"All mobile phone replacement parts, accessories and tools\",\n  \"displayOrder\": 2\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/productcategories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["productcategories", "{{categoryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/productcategories/{{categoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["productcategories", "{{categoryId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('productId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sku\": \"SAM-S21-LCD-001\",\n  \"barcode\": \"8801234567890\",\n  \"name\": \"Samsung Galaxy S21 LCD Display\",\n  \"description\": \"Original Samsung Galaxy S21 AMOLED display assembly with digitizer\",\n  \"categoryId\": \"{{categoryId}}\",\n  \"brand\": \"Samsung\",\n  \"model\": \"Galaxy S21\",\n  \"compatibility\": \"Galaxy S21 5G (SM-G991)\",\n  \"specifications\": {\n    \"size\": \"6.2 inches\",\n    \"resolution\": \"2400 x 1080\",\n    \"type\": \"Dynamic AMOLED 2X\"\n  },\n  \"unitPrice\": 18000,\n  \"costPrice\": 14000,\n  \"minStockLevel\": 5,\n  \"reorderLevel\": 10,\n  \"maxStockLevel\": 50,\n  \"taxRate\": 0,\n  \"warrantyPeriod\": 6,\n  \"warrantyType\": \"REPLACEMENT\",\n  \"qualityGrade\": \"ORIGINAL\",\n  \"isActive\": true,\n  \"isFeatured\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "Samsung",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "{{categoryId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "brand",
+                  "value": "Samsung",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unitPrice\": 19000,\n  \"costPrice\": 15000,\n  \"isFeatured\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Suppliers",
+      "item": [
+        {
+          "name": "Create Supplier",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('supplierId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tech Parts Sri Lanka\",\n  \"companyName\": \"Tech Parts (Pvt) Ltd\",\n  \"email\": \"sales@techparts.lk\",\n  \"phone\": \"0112345678\",\n  \"alternatePhone\": \"0771234567\",\n  \"website\": \"https://www.techparts.lk\",\n  \"address\": \"123 Galle Road\",\n  \"city\": \"Colombo\",\n  \"state\": \"Western Province\",\n  \"postalCode\": \"00300\",\n  \"country\": \"Sri Lanka\",\n  \"taxNumber\": \"123456789V\",\n  \"supplierType\": \"MANUFACTURER\",\n  \"paymentTerms\": \"Net 30\",\n  \"creditLimit\": 500000,\n  \"minOrderAmount\": 10000,\n  \"leadTimeDays\": 7,\n  \"status\": \"ACTIVE\",\n  \"rating\": 5,\n  \"notes\": \"Reliable supplier for Samsung parts\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/suppliers",
+              "host": ["{{baseUrl}}"],
+              "path": ["suppliers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Suppliers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/suppliers?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["suppliers"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "Tech Parts",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Supplier By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["suppliers", "{{supplierId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Supplier",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"creditLimit\": 750000,\n  \"rating\": 5,\n  \"notes\": \"Excellent supplier with fast delivery\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["suppliers", "{{supplierId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Product to Supplier",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": \"{{productId}}\",\n  \"supplierSKU\": \"TECH-SAM-S21-LCD\",\n  \"supplierPrice\": 14000,\n  \"leadTimeDays\": 5,\n  \"minOrderQuantity\": 2,\n  \"isPreferred\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/suppliers/{{supplierId}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["suppliers", "{{supplierId}}", "products"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Supplier",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["suppliers", "{{supplierId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Purchase Orders",
+      "item": [
+        {
+          "name": "Create Purchase Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('purchaseOrderId', jsonData.data.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"branchId\": \"{{mainBranchId}}\",\n  \"orderDate\": \"2025-11-18T00:00:00.000Z\",\n  \"expectedDate\": \"2025-11-25T00:00:00.000Z\",\n  \"priority\": \"HIGH\",\n  \"paymentTerms\": \"Net 30\",\n  \"shippingMethod\": \"Express Courier\",\n  \"shippingAddress\": \"123 Main Street, Colombo\",\n  \"shippingCost\": 500,\n  \"discountAmount\": 1000,\n  \"taxAmount\": 0,\n  \"notes\": \"Urgent order for screen replacements\",\n  \"items\": [\n    {\n      \"productId\": \"{{productId}}\",\n      \"quantity\": 10,\n      \"unitPrice\": 14000,\n      \"taxAmount\": 0,\n      \"discountAmount\": 0\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Purchase Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "DRAFT",
+                  "disabled": true
+                },
+                {
+                  "key": "supplierId",
+                  "value": "{{supplierId}}",
+                  "disabled": true
+                },
+                {
+                  "key": "branchId",
+                  "value": "{{mainBranchId}}",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Purchase Order By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Purchase Order",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": \"URGENT\",\n  \"expectedDate\": \"2025-11-22T00:00:00.000Z\",\n  \"notes\": \"Rush order - need by Friday\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Purchase Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Purchase Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Approved by management\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}", "approve"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Receive Purchase Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"itemId\": \"item-uuid-here\",\n      \"receivedQuantity\": 10\n    }\n  ],\n  \"notes\": \"All items received in good condition\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}/receive",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}", "receive"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Purchase Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Supplier cannot fulfill order on time\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}/cancel",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}", "cancel"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Purchase Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/purchaseorders/{{purchaseOrderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["purchaseorders", "{{purchaseOrderId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
