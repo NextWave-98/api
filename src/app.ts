@@ -26,8 +26,8 @@ app.use(
       // Allow specific origins if needed
       if (origin === 'http://localhost:3000' || origin === 'http://localhost:5173') return callback(null, true);
       // Allow production domains
-      if (origin === 'https://api.lankatechsolutions.com/api/' || origin === 'https://api.lankatechsolutions.com') return callback(null, true);
-      if (origin === 'https://lankatechsolutions.com/' || origin === 'https://lankatechsolutions.com') return callback(null, true);
+      if (origin === 'https://api-production-456e.up.railway.app/api/' || origin === 'https://api-production-456e.up.railway.app') return callback(null, true);
+      if (origin === 'https://api-production-456e.up.railway.app/' || origin === 'https://api-production-456e.up.railway.app') return callback(null, true);
       return callback(new Error('Not allowed by CORS'));
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],

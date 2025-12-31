@@ -8,6 +8,12 @@ import sequelize, { closeDatabase, connectDatabase } from './shared/config/datab
 
 const PORT = Number(process.env.PORT) || config.port || 3000;
 
+
+console.log('DEBUG: process.env.PORT =', process.env.PORT);  // Add this
+console.log('DEBUG: config.port =', config.port);            // Add this
+console.log('DEBUG: Final PORT =', PORT);                    // Add this
+console.log('DEBUG: typeof PORT =', typeof PORT);            // Add this
+
 // Graceful shutdown
 const gracefulShutdown = async () => {
   logger.info('Received shutdown signal, closing server gracefully...');
