@@ -1095,7 +1095,7 @@ export class SalesPOSService {
 
         doc.fontSize(16)
           .font('Helvetica-Bold')
-          .text(businessData?.name || 'Lanka Tech Solutions', 35, 48);
+          .text(businessData?.name || 'GadgetChain Manager', 35, 48);
 
         let contactY = 72;
         doc.fontSize(10).font('Helvetica');
@@ -1293,7 +1293,7 @@ export class SalesPOSService {
 
         const generatedDate = new Date().toLocaleString();
         doc.fontSize(7).fillColor('#666666').font('Helvetica')
-          .text(`Generated on ${generatedDate} | ${businessData?.name || 'Lanka Tech Solutions'}`, 30, footerY + 12, {
+          .text(`Generated on ${generatedDate} | ${businessData?.name || 'GadgetChain Manager'}`, 30, footerY + 12, {
             align: 'center',
             width: pageWidth - 60
           });

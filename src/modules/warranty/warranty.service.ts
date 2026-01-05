@@ -1409,7 +1409,7 @@ private async generateWarrantyCardPDF(
       console.log('Business data for warranty card:', businessData);
 
       // Extract business information with fallbacks
-      const businessName = businessData?.name?.trim() || 'Lanka Tech Solutions';
+      const businessName = businessData?.name?.trim() || 'GadgetChain Manager';
       const address = businessData?.address?.trim() || 'No.43, High Level Road, Kirullapone, Colombo 06.';
       const phone = businessData?.telephone?.trim() || '0769781811';
       const email = businessData?.email?.trim() || 'info@lankatechsolutions.lk';
@@ -1656,7 +1656,7 @@ private async generateWarrantyCardPDF(
         .fontSize(8)
         .font('Helvetica')
         .text(
-          `Generated on ${formattedDate}, ${formattedTime} | Lanka Tech Solutions`,
+          `Generated on ${formattedDate}, ${formattedTime} | GadgetChain Manager`,
           50,
           footerY + 10,
           { align: 'center', width: pageWidth - 100 }

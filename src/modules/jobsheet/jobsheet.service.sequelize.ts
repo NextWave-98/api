@@ -1884,7 +1884,7 @@ export class JobSheetService {
       // Left side text
       doc.fillColor('white');
       doc.fontSize(24).font('Helvetica-Bold').text(`JOB SHEET  ${jobSheet.jobNumber}`, 35, 20);
-      doc.fontSize(16).font('Helvetica-Bold').text(businessData?.name || 'Lanka Tech Solutions', 35, 48);
+      doc.fontSize(16).font('Helvetica-Bold').text(businessData?.name || 'GadgetChain Manager', 35, 48);
 
       let contactY = 72;
       doc.fontSize(10).font('Helvetica');
@@ -2088,7 +2088,7 @@ export class JobSheetService {
       const footerY = dividerY + 5; // Place footer below the divider
 
       doc.fontSize(7).fillColor('#666666').font('Helvetica')
-        .text(`Generated on ${new Date().toLocaleString()} | ${businessData?.name || 'Lanka Tech Solutions'}`, 30, footerY, {
+        .text(`Generated on ${new Date().toLocaleString()} | ${businessData?.name || 'GadgetChain Manager'}`, 30, footerY, {
           align: 'center',
           width: pageWidth - 0
         });
