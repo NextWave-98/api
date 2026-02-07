@@ -20,6 +20,39 @@ const router = Router();
 
 /**
  * @swagger
+ * /auth/health:
+ *   get:
+ *     summary: Health check endpoint
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Server is healthy
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: "healthy"
+ *                 timestamp:
+ *                   type: string
+ *                   format: date-time
+ *                 environment:
+ *                   type: string
+ *                   example: "production"
+ */
+router.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    version: '1.0.0'
+  });
+});
+
+/**
+ * @swagger
  * /auth/register:
  *   post:
  *     summary: Register a new user
