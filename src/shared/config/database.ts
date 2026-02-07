@@ -39,7 +39,11 @@ export const connectDatabase = async (): Promise<void> => {
     }
   } catch (error) {
     console.error('✗ Unable to connect to the database:', error);
-    process.exit(1);
+    // In serverless environments, don't exit - just log the error
+    // Routes will handle database connection errors gracefully
+    if (config.nodeEnv !== 'production') {
+      console.error('Database connection failed. Some features may not work.');
+    }
   }
 };
 

@@ -38,9 +38,7 @@ if (config.nodeEnv === 'production') {
   if (missingVars.length > 0) {
     console.error('❌ Missing required environment variables:', missingVars);
     console.error('Please set these variables in your Vercel project settings.');
-    // In serverless environment, we can't exit, but we can log the error
-    if (typeof process !== 'undefined' && process.exit) {
-      process.exit(1);
-    }
+    // In serverless environment, don't exit - just log the error
+    // The app will still try to start and routes will handle missing config gracefully
   }
 }
