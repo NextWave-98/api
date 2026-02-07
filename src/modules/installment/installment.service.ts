@@ -105,7 +105,7 @@ export class InstallmentService {
             throw new AppError(400, 'National ID already registered');
         }
 
-        const financialDetails = await CustomerFinancialDetails.create(data);
+        const financialDetails = await CustomerFinancialDetails.create(data as any);
         return financialDetails.toJSON();
     }
 
