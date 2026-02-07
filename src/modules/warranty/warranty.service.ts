@@ -22,7 +22,7 @@ import {
   VoidWarrantyDTO,
   QueryWarrantyCardsDTO,
   CreateWarrantyClaimDTO,
-  UpdateClaimStatusDTO,
+  UpdateClaimStatLKRTO,
   ResolveClaimDTO,
   AssignClaimDTO,
   QueryWarrantyClaimsDTO,
@@ -971,7 +971,7 @@ export class WarrantyService {
   /**
    * Update claim status
    */
-  async updateClaimStatus(id: string, data: UpdateClaimStatusDTO): Promise<any> {
+  async updateClaimStatus(id: string, data: UpdateClaimStatLKRTO): Promise<any> {
     const claim = await WarrantyClaim.findByPk(id);
 
     if (!claim) {

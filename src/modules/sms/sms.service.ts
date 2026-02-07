@@ -836,26 +836,26 @@ export class SMSService {
         console.log('HTML around Current Balance:', html.substring(balanceIndex, balanceIndex + 200));
       } else {
         console.log('Could not find "Current Balance" in HTML');
-        // Try to find any USD mention
-        const USDIndex = html.indexOf('USD');
-        if (USDIndex > -1) {
-          console.log('HTML around USD:', html.substring(Math.max(0, USDIndex - 100), USDIndex + 50));
+        // Try to find any LKR mention
+        const LKRIndex = html.indexOf('LKR');
+        if (LKRIndex > -1) {
+          console.log('HTML around LKR:', html.substring(Math.max(0, LKRIndex - 100), LKRIndex + 50));
         }
       }
 
-      // Parse balance from HTML - looking for "Current Balance: XX.XX USD"
+      // Parse balance from HTML - looking for "Current Balance: XX.XX LKR"
       let balance: number | undefined;
       
       // Try multiple patterns to find the balance
       const patterns = [
         // Match patterns with HTML tags between text
-        /Current\s*Balance[:\s]*(?:<[^>]*>)*\s*([\d,.]+)\s*(?:<[^>]*>)*\s*USD/i,
-        /Current\s*Balance[:\s]*([\d,.]+)\s*USD/i,
-        // Match balance value before USD
-        />\s*([\d]+\.[\d]+)\s*USD\s*</i,
-        /:\s*([\d]+\.[\d]+)\s*USD/i,
-        // Generic number before USD
-        /([\d]+\.[\d]{2})\s*USD/i,
+        /Current\s*Balance[:\s]*(?:<[^>]*>)*\s*([\d,.]+)\s*(?:<[^>]*>)*\s*LKR/i,
+        /Current\s*Balance[:\s]*([\d,.]+)\s*LKR/i,
+        // Match balance value before LKR
+        />\s*([\d]+\.[\d]+)\s*LKR\s*</i,
+        /:\s*([\d]+\.[\d]+)\s*LKR/i,
+        // Generic number before LKR
+        /([\d]+\.[\d]{2})\s*LKR/i,
       ];
 
       for (const pattern of patterns) {

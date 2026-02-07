@@ -112,6 +112,6 @@ export const notificationQuerySchema = z.object({
 });
 
 export type CreateNotificationDTO = z.infer<typeof createNotificationSchema>['body'];
-export type UpdateNotificationStatusDTO = z.infer<typeof updateNotificationStatusSchema>['body'];
+export type UpdateNotificationStatLKRTO = z.infer<typeof updateNotificationStatusSchema>['body'];
 export type NotificationQueryDTO = z.infer<typeof notificationQuerySchema>['query'];
 

@@ -35,6 +35,7 @@ import smsRoutes from './modules/sms/sms.routes';
 import productReturnRoutes from './modules/productreturn/productreturn.routes';
 import addonRequestRoutes from './modules/addonrequest/addonrequest.routes';
 import businessRoutes from './modules/business/business.routes';
+import installmentRoutes from './modules/installment/installment.routes';
 
 
 export const setupRoutes = (app: Application) => {
@@ -76,7 +77,7 @@ export const setupRoutes = (app: Application) => {
   // IMPORTANT: Register POS routes BEFORE analytics routes to avoid conflicts
   // POS Sales Routes (actual sales transactions)
   app.use(`${config.apiPrefix}/sales/pos`, salesPOSRoutes);
-  
+
   // Sales Analytics Routes (reports/dashboard)
   app.use(`${config.apiPrefix}/sales`, salesRoutes);
 
@@ -97,6 +98,9 @@ export const setupRoutes = (app: Application) => {
 
   // Business Profile Routes (Admin only)
   app.use(`${config.apiPrefix}/business`, businessRoutes);
+
+  // Installment Payment System Routes
+  app.use(`${config.apiPrefix}/installments`, installmentRoutes);
 
 };
 

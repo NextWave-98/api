@@ -10,7 +10,7 @@ const getDevelopmentConfig = () => {
       url: process.env.DATABASE_URL,
       dialect: 'postgres',
       dialectOptions: {
-        ssl: false
+        ssl: true
       },
       logging: console.log,
       pool: {

@@ -1,7 +1,7 @@
 import { AppError } from '../../shared/utils/app-error';
 import {
   CreateNotificationDTO,
-  UpdateNotificationStatusDTO,
+  UpdateNotificationStatLKRTO,
   NotificationQueryDTO,
 } from './notification.dto';
 import {
@@ -199,7 +199,7 @@ export class NotificationService {
     return notification.toJSON();
   }
 
-  async updateNotificationStatus(id: string, data: UpdateNotificationStatusDTO) {
+  async updateNotificationStatus(id: string, data: UpdateNotificationStatLKRTO) {
     const notification = await Notification.findByPk(id);
 
     if (!notification) {

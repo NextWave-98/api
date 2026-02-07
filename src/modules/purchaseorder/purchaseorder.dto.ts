@@ -49,7 +49,7 @@ export const updatePOStatusSchema = z.object({
   remarks: z.string().optional(),
 });
 
-export type UpdatePOStatusDto = z.infer<typeof updatePOStatusSchema>;
+export type UpdatePOStatLKRto = z.infer<typeof updatePOStatusSchema>;
 
 // Query Purchase Orders DTO
 export const queryPurchaseOrdersSchema = z.object({

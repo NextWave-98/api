@@ -4,7 +4,7 @@ import { withPrismaErrorHandling } from '../../shared/utils/sequelize-error-hand
 import {
   CreateJobSheetDTO,
   UpdateJobSheetDTO,
-  UpdateJobSheetStatusDTO,
+  UpdateJobSheetStatLKRTO,
   JobSheetQueryDTO,
   AddPartToJobSheetDTO,
   AddProductToJobSheetDTO,
@@ -622,7 +622,7 @@ import { NotificationOrchestrator } from '../notification/notification-orchestra
 //   /**
 //    * Update job sheet status
 //    */
-//   async updateJobSheetStatus(id: string, data: UpdateJobSheetStatusDTO) {
+//   async updateJobSheetStatus(id: string, data: UpdateJobSheetStatLKRTO) {
 //     const jobSheet = await prisma.jobSheet.findUnique({
 //       where: { id },
 //     });

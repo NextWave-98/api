@@ -60,6 +60,62 @@ export class Customer extends Model {
   @Column({ type: DataType.STRING, unique: true, field: 'nic_number' })
   nicNumber?: string;
 
+  // Financial Details for Installment Plans
+  @Column({ type: DataType.DATE, field: 'national_id_issue_date' })
+  nationalIdIssueDate?: Date;
+
+  @Column({ type: DataType.DATE, field: 'national_id_expiry_date' })
+  nationalIdExpiryDate?: Date;
+
+  @Column({ type: DataType.STRING, field: 'bank_name' })
+  bankName?: string;
+
+  @Column({ type: DataType.STRING, field: 'bank_branch' })
+  bankBranch?: string;
+
+  @Column({ type: DataType.STRING, field: 'bank_account_number' })
+  bankAccountNumber?: string;
+
+  @Column({ type: DataType.STRING, field: 'bank_swift_code' })
+  bankSwiftCode?: string;
+
+  @Column({ type: DataType.STRING, field: 'company_name' })
+  companyName?: string;
+
+  @Column({ type: DataType.STRING, field: 'company_address' })
+  companyAddress?: string;
+
+  @Column({ type: DataType.STRING, field: 'company_contact' })
+  companyContact?: string;
+
+  @Column({ type: DataType.STRING, field: 'job_position' })
+  jobPosition?: string;
+
+  @Column({ type: DataType.DECIMAL(10, 2), field: 'monthly_income' })
+  monthlyIncome?: number;
+
+  @Column({ type: DataType.STRING, field: 'supervisor_name' })
+  supervisorName?: string;
+
+  @Column({ type: DataType.STRING, field: 'supervisor_contact' })
+  supervisorContact?: string;
+
+  @Column({ type: DataType.JSONB, field: 'existing_loans' })
+  existingLoans?: any;
+
+  @Column({ type: DataType.INTEGER, field: 'credit_score' })
+  creditScore?: number;
+
+  @Column({ type: DataType.STRING, field: 'credit_rating' })
+  creditRating?: string;
+
+  @Default(false)
+  @Column({ type: DataType.BOOLEAN, field: 'financial_details_verified' })
+  financialDetailsVerified!: boolean;
+
+  @Column({ type: DataType.DATE, field: 'financial_details_verified_at' })
+  financialDetailsVerifiedAt?: Date;
+
   @Index
   @ForeignKey(() => Location)
   @Column({ type: DataType.UUID, field: 'location_id' })

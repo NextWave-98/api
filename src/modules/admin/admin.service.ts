@@ -463,7 +463,7 @@ export class AdminService {
         id: `payment-${payment.id}`,
         type: 'sale',
         title: 'Payment Received',
-        description: `USD ${Number(payment.amount).toFixed(2)} for Sale #${saleNumber} at ${branchName}`,
+        description: `LKR ${Number(payment.amount).toFixed(2)} for Sale #${saleNumber} at ${branchName}`,
         timestamp: this.getTimeAgo(payment.paymentDate),
         status: 'success',
       });

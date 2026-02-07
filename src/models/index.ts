@@ -72,6 +72,9 @@ import { ActivityLog } from './activity-log.model';
 import { SMSLog } from './sms-log.model';
 import { ProductReturn } from './product-return.model';
 import { AddonRequest } from './addon-request.model';
+import { CustomerFinancialDetails } from './customer-financial-details.model';
+import { InstallmentPlan } from './installment-plan.model';
+import { InstallmentPayment } from './installment-payment.model';
 
 /**
  * Register all models with the Sequelize instance
@@ -80,7 +83,7 @@ import { AddonRequest } from './addon-request.model';
 export const registerModels = () => {
   // Import sequelize only when needed to avoid circular dependency
   const { sequelize } = require('../config/database');
-  
+
   const models = [
     User,
     Role,
@@ -137,6 +140,9 @@ export const registerModels = () => {
     SMSLog,
     ProductReturn,
     AddonRequest,
+    CustomerFinancialDetails,
+    InstallmentPlan,
+    InstallmentPayment,
   ];
 
   if (sequelize && typeof sequelize.addModels === 'function') {
@@ -158,19 +164,19 @@ let associationsInitialized = false;
  * Note: With sequelize-typescript decorators, associations are auto-configured
  * This function is kept for backward compatibility but does minimal work
  */
-export const 
-initializeAssociations = (): void => {
-  if (associationsInitialized) {
-    console.log('🔗 Sequelize model associations already initialized.');
-    return;
-  }
-  
-  console.log('🔗 Sequelize model associations initialized via decorators.');
-  associationsInitialized = true;
-  
-  // Associations are defined via decorators in model files
-  // No manual definitions needed here
-};
+export const
+  initializeAssociations = (): void => {
+    if (associationsInitialized) {
+      console.log('🔗 Sequelize model associations already initialized.');
+      return;
+    }
+
+    console.log('🔗 Sequelize model associations initialized via decorators.');
+    associationsInitialized = true;
+
+    // Associations are defined via decorators in model files
+    // No manual definitions needed here
+  };
 
 // Legacy manual associations - not used when decorators are present
 const _manualAssociations = () => {
@@ -451,7 +457,7 @@ export const getAllModels = () => {
     Role,
     Permission,
     Staff,
-    
+
     // Location
     Location,
     Warehouse,
@@ -461,38 +467,38 @@ export const getAllModels = () => {
     InventoryZone,
     BranchTarget,
     Business,
-    
+
     // Customer
     Customer,
     Device,
-    
+
     // Products
     ProductCategory,
     Product,
     ProductInventory,
     ProductStockMovement,
-    
+
     // Jobs
     JobSheet,
     Repair,
     JobSheetPart,
     JobSheetProduct,
     JobStatusHistory,
-    
+
     // Parts
     Part,
     Inventory,
     StockMovement,
-    
+
     // Payments
     Payment,
-    
+
     // Sales
     Sale,
     SaleItem,
     SalePayment,
     SaleRefund,
-    
+
     // Suppliers
     Supplier,
     SupplierProduct,
@@ -502,11 +508,11 @@ export const getAllModels = () => {
     SupplierPayment,
     SupplierReturn,
     SupplierReturnItem,
-    
+
     // Warranty
     WarrantyCard,
     WarrantyClaim,
-    
+
     // Stock Management
     StockRelease,
     StockReleaseItem,
@@ -515,7 +521,7 @@ export const getAllModels = () => {
     WarehouseInventory,
     StockTransfer,
     StockTransferItem,
-    
+
     // System
     Notification,
     NotificationSetting,
@@ -523,6 +529,9 @@ export const getAllModels = () => {
     SMSLog,
     ProductReturn,
     AddonRequest,
+    CustomerFinancialDetails,
+    InstallmentPlan,
+    InstallmentPayment,
   ];
 };
 
@@ -533,7 +542,7 @@ export {
   Role,
   Permission,
   Staff,
-  
+
   // Location
   Location,
   Warehouse,
@@ -543,38 +552,38 @@ export {
   InventoryZone,
   BranchTarget,
   Business,
-  
+
   // Customer
   Customer,
   Device,
-  
+
   // Products
   ProductCategory,
   Product,
   ProductInventory,
   ProductStockMovement,
-  
+
   // Jobs
   JobSheet,
   Repair,
   JobSheetPart,
   JobSheetProduct,
   JobStatusHistory,
-  
+
   // Parts
   Part,
   Inventory,
   StockMovement,
-  
+
   // Payments
   Payment,
-  
+
   // Sales
   Sale,
   SaleItem,
   SalePayment,
   SaleRefund,
-  
+
   // Suppliers
   Supplier,
   SupplierProduct,
@@ -584,11 +593,11 @@ export {
   SupplierPayment,
   SupplierReturn,
   SupplierReturnItem,
-  
+
   // Warranty
   WarrantyCard,
   WarrantyClaim,
-  
+
   // Stock Management
   StockRelease,
   StockReleaseItem,
@@ -597,7 +606,7 @@ export {
   WarehouseInventory,
   StockTransfer,
   StockTransferItem,
-  
+
   // System
   Notification,
   NotificationSetting,
@@ -605,6 +614,12 @@ export {
   SMSLog,
   ProductReturn,
   RolePermission,
+  AddonRequest,
+
+  // Installment Payments
+  CustomerFinancialDetails,
+  InstallmentPlan,
+  InstallmentPayment,
 };
 
 // Export enums

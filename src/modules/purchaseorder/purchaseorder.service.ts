@@ -1,5 +1,5 @@
 import { AppError } from '../../shared/utils/app-error';
-import { CreatePurchaseOrderDto, UpdatePurchaseOrderDto, UpdatePOStatusDto, QueryPurchaseOrdersDto, AddPOItemDto, UpdatePOItemDto, ApprovePODto, ReceivePODto, ReceivePOWithItemsDto, CancelPODto } from './purchaseorder.dto';
+import { CreatePurchaseOrderDto, UpdatePurchaseOrderDto, UpdatePOStatLKRto, QueryPurchaseOrdersDto, AddPOItemDto, UpdatePOItemDto, ApprovePODto, ReceivePODto, ReceivePOWithItemsDto, CancelPODto } from './purchaseorder.dto';
 import {
   PurchaseOrder,
   PurchaseOrderItem,
@@ -355,7 +355,7 @@ export class PurchaseOrderService {
   }
 
   // Update PO status
-  async updatePOStatus(id: string, data: UpdatePOStatusDto, changedBy?: string) {
+  async updatePOStatus(id: string, data: UpdatePOStatLKRto, changedBy?: string) {
     const po = await PurchaseOrder.findByPk(id);
     if (!po) throw new AppError(404, 'Purchase order not found');
 

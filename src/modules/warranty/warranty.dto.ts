@@ -162,7 +162,7 @@ export type VoidWarrantyDTO = z.infer<typeof voidWarrantySchema>;
 export type QueryWarrantyCardsDTO = z.infer<typeof queryWarrantyCardsSchema>;
 
 export type CreateWarrantyClaimDTO = z.infer<typeof createWarrantyClaimSchema>;
-export type UpdateClaimStatusDTO = z.infer<typeof updateClaimStatusSchema>;
+export type UpdateClaimStatLKRTO = z.infer<typeof updateClaimStatusSchema>;
 export type ResolveClaimDTO = z.infer<typeof resolveClaimSchema>;
 export type AssignClaimDTO = z.infer<typeof assignClaimSchema>;
 export type QueryWarrantyClaimsDTO = z.infer<typeof queryWarrantyClaimsSchema>;

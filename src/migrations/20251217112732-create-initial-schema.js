@@ -13,6 +13,60 @@ module.exports = {
     console.log('🚀 Creating initial database schema...\n');
     
     // ========================================
+    // DROP EXISTING ENUMS
+    // ========================================
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "LocationType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "WarehouseType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "BranchType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "TransferType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "TransferStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "TargetType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "CustomerType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "DeviceType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "JobStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "Priority";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "RepairStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "PartCategory";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "MovementType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "PaymentMethod";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "RecipientType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "EventType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "NotificationPriority";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "NotificationType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "NotificationMethod";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "NotificationStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "WarrantyType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "QualityGrade";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "SupplierType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "SupplierStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "POStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "POPaymentStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "GRNStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ItemQualityStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReturnType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReturnReason";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReturnStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "RefundMethod";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "StockMovementType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReferenceType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReleaseType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReleaseStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "JobProductStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "SaleType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "SaleStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "DiscountType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "PaymentStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "WarrantyStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ClaimStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ClaimPriority";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ResolutionType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "SMSTemplateType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "SMSStatus";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReturnSourceType";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ReturnCategory";`);
+    await queryInterface.sequelize.query(`DROP TYPE IF EXISTS "ProductCondition";`);
+    
+    // ========================================
     // CREATE ENUMS
     // ========================================
     await queryInterface.sequelize.query(`
@@ -4719,1070 +4773,220 @@ module.exports = {
     // ========================================
 
     // Foreign keys for users
-    await queryInterface.addConstraint('users', {
-      fields: ['role'],
-      type: 'foreign key',
-      name: 'users_role_fkey',
-      references: {
-        table: 'roles',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('users', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'users_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'users_role_fkey' AND table_name = 'users') THEN ALTER TABLE "users" ADD CONSTRAINT "users_role_fkey" FOREIGN KEY ("role") REFERENCES "roles" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'users_location_fkey' AND table_name = 'users') THEN ALTER TABLE "users" ADD CONSTRAINT "users_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: users');
 
     // Foreign keys for staff
-    await queryInterface.addConstraint('staff', {
-      fields: ['user'],
-      type: 'foreign key',
-      name: 'staff_user_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'staff_user_fkey' AND table_name = 'staff') THEN ALTER TABLE "staff" ADD CONSTRAINT "staff_user_fkey" FOREIGN KEY ("user") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: staff');
 
     // Foreign keys for locations
-    await queryInterface.addConstraint('locations', {
-      fields: ['warehouse'],
-      type: 'foreign key',
-      name: 'locations_warehouse_fkey',
-      references: {
-        table: '_warehouse',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('locations', {
-      fields: ['branch'],
-      type: 'foreign key',
-      name: 'locations_branch_fkey',
-      references: {
-        table: 'branches',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'locations_warehouse_fkey' AND table_name = 'locations') THEN ALTER TABLE "locations" ADD CONSTRAINT "locations_warehouse_fkey" FOREIGN KEY ("warehouse") REFERENCES "_warehouse" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'locations_branch_fkey' AND table_name = 'locations') THEN ALTER TABLE "locations" ADD CONSTRAINT "locations_branch_fkey" FOREIGN KEY ("branch") REFERENCES "branches" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: locations');
 
     // Foreign keys for warehouse_staff
-    await queryInterface.addConstraint('warehouse_staff', {
-      fields: ['warehouse'],
-      type: 'foreign key',
-      name: 'warehouse_staff_warehouse_fkey',
-      references: {
-        table: '_warehouse',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warehouse_staff_warehouse_fkey' AND table_name = 'warehouse_staff') THEN ALTER TABLE "warehouse_staff" ADD CONSTRAINT "warehouse_staff_warehouse_fkey" FOREIGN KEY ("warehouse") REFERENCES "_warehouse" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: warehouse_staff');
 
     // Foreign keys for branch_staff
-    await queryInterface.addConstraint('branch_staff', {
-      fields: ['branch'],
-      type: 'foreign key',
-      name: 'branch_staff_branch_fkey',
-      references: {
-        table: 'branches',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'branch_staff_branch_fkey' AND table_name = 'branch_staff') THEN ALTER TABLE "branch_staff" ADD CONSTRAINT "branch_staff_branch_fkey" FOREIGN KEY ("branch") REFERENCES "branches" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: branch_staff');
 
     // Foreign keys for inventory_zones
-    await queryInterface.addConstraint('inventory_zones', {
-      fields: ['warehouse'],
-      type: 'foreign key',
-      name: 'inventory_zones_warehouse_fkey',
-      references: {
-        table: '_warehouse',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'inventory_zones_warehouse_fkey' AND table_name = 'inventory_zones') THEN ALTER TABLE "inventory_zones" ADD CONSTRAINT "inventory_zones_warehouse_fkey" FOREIGN KEY ("warehouse") REFERENCES "_warehouse" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: inventory_zones');
 
     // Foreign keys for _warehouse_inventory
-    await queryInterface.addConstraint('_warehouse_inventory', {
-      fields: ['warehouse'],
-      type: 'foreign key',
-      name: '_warehouse_inventory_warehouse_fkey',
-      references: {
-        table: '_warehouse',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = '_warehouse_inventory_warehouse_fkey' AND table_name = '_warehouse_inventory') THEN ALTER TABLE "_warehouse_inventory" ADD CONSTRAINT "_warehouse_inventory_warehouse_fkey" FOREIGN KEY ("warehouse") REFERENCES "_warehouse" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: _warehouse_inventory');
 
     // Foreign keys for stock_transfers
-    await queryInterface.addConstraint('stock_transfers', {
-      fields: ['from_warehouse'],
-      type: 'foreign key',
-      name: 'stock_transfers_from_warehouse_fkey',
-      references: {
-        table: '_warehouse',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('stock_transfers', {
-      fields: ['to_warehouse'],
-      type: 'foreign key',
-      name: 'stock_transfers_to_warehouse_fkey',
-      references: {
-        table: '_warehouse',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_transfers_from_warehouse_fkey' AND table_name = 'stock_transfers') THEN ALTER TABLE "stock_transfers" ADD CONSTRAINT "stock_transfers_from_warehouse_fkey" FOREIGN KEY ("from_warehouse") REFERENCES "_warehouse" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_transfers_to_warehouse_fkey' AND table_name = 'stock_transfers') THEN ALTER TABLE "stock_transfers" ADD CONSTRAINT "stock_transfers_to_warehouse_fkey" FOREIGN KEY ("to_warehouse") REFERENCES "_warehouse" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: stock_transfers');
 
     // Foreign keys for stock_transfer_items
-    await queryInterface.addConstraint('stock_transfer_items', {
-      fields: ['stock_transfer'],
-      type: 'foreign key',
-      name: 'stock_transfer_items_stock_transfer_fkey',
-      references: {
-        table: 'stock_transfers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_transfer_items_stock_transfer_fkey' AND table_name = 'stock_transfer_items') THEN ALTER TABLE "stock_transfer_items" ADD CONSTRAINT "stock_transfer_items_stock_transfer_fkey" FOREIGN KEY ("stock_transfer") REFERENCES "stock_transfers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: stock_transfer_items');
 
     // Foreign keys for branch_targets
-    await queryInterface.addConstraint('branch_targets', {
-      fields: ['branch'],
-      type: 'foreign key',
-      name: 'branch_targets_branch_fkey',
-      references: {
-        table: 'branches',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'branch_targets_branch_fkey' AND table_name = 'branch_targets') THEN ALTER TABLE "branch_targets" ADD CONSTRAINT "branch_targets_branch_fkey" FOREIGN KEY ("branch") REFERENCES "branches" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: branch_targets');
 
     // Foreign keys for customers
-    await queryInterface.addConstraint('customers', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'customers_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'customers_location_fkey' AND table_name = 'customers') THEN ALTER TABLE "customers" ADD CONSTRAINT "customers_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: customers');
 
     // Foreign keys for devices
-    await queryInterface.addConstraint('devices', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'devices_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'devices_customer_fkey' AND table_name = 'devices') THEN ALTER TABLE "devices" ADD CONSTRAINT "devices_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: devices');
 
     // Foreign keys for job_sheets
-    await queryInterface.addConstraint('job_sheets', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'job_sheets_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('job_sheets', {
-      fields: ['device'],
-      type: 'foreign key',
-      name: 'job_sheets_device_fkey',
-      references: {
-        table: 'devices',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('job_sheets', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'job_sheets_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('job_sheets', {
-      fields: ['created_by'],
-      type: 'foreign key',
-      name: 'job_sheets_created_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('job_sheets', {
-      fields: ['assigned_to'],
-      type: 'foreign key',
-      name: 'job_sheets_assigned_to_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheets_customer_fkey' AND table_name = 'job_sheets') THEN ALTER TABLE "job_sheets" ADD CONSTRAINT "job_sheets_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheets_device_fkey' AND table_name = 'job_sheets') THEN ALTER TABLE "job_sheets" ADD CONSTRAINT "job_sheets_device_fkey" FOREIGN KEY ("device") REFERENCES "devices" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheets_location_fkey' AND table_name = 'job_sheets') THEN ALTER TABLE "job_sheets" ADD CONSTRAINT "job_sheets_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheets_created_by_fkey' AND table_name = 'job_sheets') THEN ALTER TABLE "job_sheets" ADD CONSTRAINT "job_sheets_created_by_fkey" FOREIGN KEY ("created_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheets_assigned_to_fkey' AND table_name = 'job_sheets') THEN ALTER TABLE "job_sheets" ADD CONSTRAINT "job_sheets_assigned_to_fkey" FOREIGN KEY ("assigned_to") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: job_sheets');
 
     // Foreign keys for repairs
-    await queryInterface.addConstraint('repairs', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'repairs_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'repairs_job_sheet_fkey' AND table_name = 'repairs') THEN ALTER TABLE "repairs" ADD CONSTRAINT "repairs_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: repairs');
 
     // Foreign keys for inventory
-    await queryInterface.addConstraint('inventory', {
-      fields: ['part'],
-      type: 'foreign key',
-      name: 'inventory_part_fkey',
-      references: {
-        table: 'parts',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('inventory', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'inventory_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'inventory_part_fkey' AND table_name = 'inventory') THEN ALTER TABLE "inventory" ADD CONSTRAINT "inventory_part_fkey" FOREIGN KEY ("part") REFERENCES "parts" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'inventory_location_fkey' AND table_name = 'inventory') THEN ALTER TABLE "inventory" ADD CONSTRAINT "inventory_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: inventory');
 
     // Foreign keys for job_sheet_parts
-    await queryInterface.addConstraint('job_sheet_parts', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'job_sheet_parts_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('job_sheet_parts', {
-      fields: ['part'],
-      type: 'foreign key',
-      name: 'job_sheet_parts_part_fkey',
-      references: {
-        table: 'parts',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheet_parts_job_sheet_fkey' AND table_name = 'job_sheet_parts') THEN ALTER TABLE "job_sheet_parts" ADD CONSTRAINT "job_sheet_parts_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheet_parts_part_fkey' AND table_name = 'job_sheet_parts') THEN ALTER TABLE "job_sheet_parts" ADD CONSTRAINT "job_sheet_parts_part_fkey" FOREIGN KEY ("part") REFERENCES "parts" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: job_sheet_parts');
 
     // Foreign keys for stock_movements
-    await queryInterface.addConstraint('stock_movements', {
-      fields: ['part'],
-      type: 'foreign key',
-      name: 'stock_movements_part_fkey',
-      references: {
-        table: 'parts',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_movements_part_fkey' AND table_name = 'stock_movements') THEN ALTER TABLE "stock_movements" ADD CONSTRAINT "stock_movements_part_fkey" FOREIGN KEY ("part") REFERENCES "parts" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: stock_movements');
 
     // Foreign keys for payments
-    await queryInterface.addConstraint('payments', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'payments_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('payments', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'payments_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('payments', {
-      fields: ['received_by'],
-      type: 'foreign key',
-      name: 'payments_received_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'payments_job_sheet_fkey' AND table_name = 'payments') THEN ALTER TABLE "payments" ADD CONSTRAINT "payments_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'payments_customer_fkey' AND table_name = 'payments') THEN ALTER TABLE "payments" ADD CONSTRAINT "payments_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'payments_received_by_fkey' AND table_name = 'payments') THEN ALTER TABLE "payments" ADD CONSTRAINT "payments_received_by_fkey" FOREIGN KEY ("received_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: payments');
 
     // Foreign keys for job_status_history
-    await queryInterface.addConstraint('job_status_history', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'job_status_history_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_status_history_job_sheet_fkey' AND table_name = 'job_status_history') THEN ALTER TABLE "job_status_history" ADD CONSTRAINT "job_status_history_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: job_status_history');
 
     // Foreign keys for notifications
-    await queryInterface.addConstraint('notifications', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'notifications_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('notifications', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'notifications_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('notifications', {
-      fields: ['sale'],
-      type: 'foreign key',
-      name: 'notifications_sale_fkey',
-      references: {
-        table: 'sales',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('notifications', {
-      fields: ['product_return'],
-      type: 'foreign key',
-      name: 'notifications_product_return_fkey',
-      references: {
-        table: 'product_returns',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('notifications', {
-      fields: ['recipient_user'],
-      type: 'foreign key',
-      name: 'notifications_recipient_user_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('notifications', {
-      fields: ['parent_notification'],
-      type: 'foreign key',
-      name: 'notifications_parent_notification_fkey',
-      references: {
-        table: 'notifications',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'notifications_customer_fkey' AND table_name = 'notifications') THEN ALTER TABLE "notifications" ADD CONSTRAINT "notifications_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'notifications_job_sheet_fkey' AND table_name = 'notifications') THEN ALTER TABLE "notifications" ADD CONSTRAINT "notifications_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'notifications_sale_fkey' AND table_name = 'notifications') THEN ALTER TABLE "notifications" ADD CONSTRAINT "notifications_sale_fkey" FOREIGN KEY ("sale") REFERENCES "sales" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'notifications_product_return_fkey' AND table_name = 'notifications') THEN ALTER TABLE "notifications" ADD CONSTRAINT "notifications_product_return_fkey" FOREIGN KEY ("product_return") REFERENCES "product_returns" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'notifications_recipient_user_fkey' AND table_name = 'notifications') THEN ALTER TABLE "notifications" ADD CONSTRAINT "notifications_recipient_user_fkey" FOREIGN KEY ("recipient_user") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'notifications_parent_notification_fkey' AND table_name = 'notifications') THEN ALTER TABLE "notifications" ADD CONSTRAINT "notifications_parent_notification_fkey" FOREIGN KEY ("parent_notification") REFERENCES "notifications" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: notifications');
 
     // Foreign keys for activity_logs
-    await queryInterface.addConstraint('activity_logs', {
-      fields: ['user'],
-      type: 'foreign key',
-      name: 'activity_logs_user_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'activity_logs_user_fkey' AND table_name = 'activity_logs') THEN ALTER TABLE "activity_logs" ADD CONSTRAINT "activity_logs_user_fkey" FOREIGN KEY ("user") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: activity_logs');
 
     // Foreign keys for product_categories
-    await queryInterface.addConstraint('product_categories', {
-      fields: ['parent'],
-      type: 'foreign key',
-      name: 'product_categories_parent_fkey',
-      references: {
-        table: 'product_categories',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_categories_parent_fkey' AND table_name = 'product_categories') THEN ALTER TABLE "product_categories" ADD CONSTRAINT "product_categories_parent_fkey" FOREIGN KEY ("parent") REFERENCES "product_categories" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: product_categories');
 
     // Foreign keys for products
-    await queryInterface.addConstraint('products', {
-      fields: ['category'],
-      type: 'foreign key',
-      name: 'products_category_fkey',
-      references: {
-        table: 'product_categories',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'products_category_fkey' AND table_name = 'products') THEN ALTER TABLE "products" ADD CONSTRAINT "products_category_fkey" FOREIGN KEY ("category") REFERENCES "product_categories" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: products');
 
     // Foreign keys for supplier_products
-    await queryInterface.addConstraint('supplier_products', {
-      fields: ['supplier'],
-      type: 'foreign key',
-      name: 'supplier_products_supplier_fkey',
-      references: {
-        table: 'suppliers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('supplier_products', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'supplier_products_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'supplier_products_supplier_fkey' AND table_name = 'supplier_products') THEN ALTER TABLE "supplier_products" ADD CONSTRAINT "supplier_products_supplier_fkey" FOREIGN KEY ("supplier") REFERENCES "suppliers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'supplier_products_product_fkey' AND table_name = 'supplier_products') THEN ALTER TABLE "supplier_products" ADD CONSTRAINT "supplier_products_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: supplier_products');
 
     // Foreign keys for purchase_orders
-    await queryInterface.addConstraint('purchase_orders', {
-      fields: ['supplier'],
-      type: 'foreign key',
-      name: 'purchase_orders_supplier_fkey',
-      references: {
-        table: 'suppliers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'purchase_orders_supplier_fkey' AND table_name = 'purchase_orders') THEN ALTER TABLE "purchase_orders" ADD CONSTRAINT "purchase_orders_supplier_fkey" FOREIGN KEY ("supplier") REFERENCES "suppliers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: purchase_orders');
 
     // Foreign keys for purchase_order_items
-    await queryInterface.addConstraint('purchase_order_items', {
-      fields: ['purchase_order'],
-      type: 'foreign key',
-      name: 'purchase_order_items_purchase_order_fkey',
-      references: {
-        table: 'purchase_orders',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('purchase_order_items', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'purchase_order_items_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'purchase_order_items_purchase_order_fkey' AND table_name = 'purchase_order_items') THEN ALTER TABLE "purchase_order_items" ADD CONSTRAINT "purchase_order_items_purchase_order_fkey" FOREIGN KEY ("purchase_order") REFERENCES "purchase_orders" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'purchase_order_items_product_fkey' AND table_name = 'purchase_order_items') THEN ALTER TABLE "purchase_order_items" ADD CONSTRAINT "purchase_order_items_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: purchase_order_items');
 
     // Foreign keys for po_status_history
-    await queryInterface.addConstraint('po_status_history', {
-      fields: ['purchase_order'],
-      type: 'foreign key',
-      name: 'po_status_history_purchase_order_fkey',
-      references: {
-        table: 'purchase_orders',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'po_status_history_purchase_order_fkey' AND table_name = 'po_status_history') THEN ALTER TABLE "po_status_history" ADD CONSTRAINT "po_status_history_purchase_order_fkey" FOREIGN KEY ("purchase_order") REFERENCES "purchase_orders" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: po_status_history');
 
     // Foreign keys for goods_receipts
-    await queryInterface.addConstraint('goods_receipts', {
-      fields: ['purchase_order'],
-      type: 'foreign key',
-      name: 'goods_receipts_purchase_order_fkey',
-      references: {
-        table: 'purchase_orders',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('goods_receipts', {
-      fields: ['destination_location'],
-      type: 'foreign key',
-      name: 'goods_receipts_destination_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'goods_receipts_purchase_order_fkey' AND table_name = 'goods_receipts') THEN ALTER TABLE "goods_receipts" ADD CONSTRAINT "goods_receipts_purchase_order_fkey" FOREIGN KEY ("purchase_order") REFERENCES "purchase_orders" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'goods_receipts_destination_location_fkey' AND table_name = 'goods_receipts') THEN ALTER TABLE "goods_receipts" ADD CONSTRAINT "goods_receipts_destination_location_fkey" FOREIGN KEY ("destination_location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: goods_receipts');
 
     // Foreign keys for goods_receipt_items
-    await queryInterface.addConstraint('goods_receipt_items', {
-      fields: ['goods_receipt'],
-      type: 'foreign key',
-      name: 'goods_receipt_items_goods_receipt_fkey',
-      references: {
-        table: 'goods_receipts',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'goods_receipt_items_goods_receipt_fkey' AND table_name = 'goods_receipt_items') THEN ALTER TABLE "goods_receipt_items" ADD CONSTRAINT "goods_receipt_items_goods_receipt_fkey" FOREIGN KEY ("goods_receipt") REFERENCES "goods_receipts" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: goods_receipt_items');
 
     // Foreign keys for supplier_returns
-    await queryInterface.addConstraint('supplier_returns', {
-      fields: ['supplier'],
-      type: 'foreign key',
-      name: 'supplier_returns_supplier_fkey',
-      references: {
-        table: 'suppliers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'supplier_returns_supplier_fkey' AND table_name = 'supplier_returns') THEN ALTER TABLE "supplier_returns" ADD CONSTRAINT "supplier_returns_supplier_fkey" FOREIGN KEY ("supplier") REFERENCES "suppliers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: supplier_returns');
 
     // Foreign keys for supplier_return_items
-    await queryInterface.addConstraint('supplier_return_items', {
-      fields: ['supplier_return'],
-      type: 'foreign key',
-      name: 'supplier_return_items_supplier_return_fkey',
-      references: {
-        table: 'supplier_returns',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'supplier_return_items_supplier_return_fkey' AND table_name = 'supplier_return_items') THEN ALTER TABLE "supplier_return_items" ADD CONSTRAINT "supplier_return_items_supplier_return_fkey" FOREIGN KEY ("supplier_return") REFERENCES "supplier_returns" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: supplier_return_items');
 
     // Foreign keys for supplier_payments
-    await queryInterface.addConstraint('supplier_payments', {
-      fields: ['supplier'],
-      type: 'foreign key',
-      name: 'supplier_payments_supplier_fkey',
-      references: {
-        table: 'suppliers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('supplier_payments', {
-      fields: ['purchase_order'],
-      type: 'foreign key',
-      name: 'supplier_payments_purchase_order_fkey',
-      references: {
-        table: 'purchase_orders',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'supplier_payments_supplier_fkey' AND table_name = 'supplier_payments') THEN ALTER TABLE "supplier_payments" ADD CONSTRAINT "supplier_payments_supplier_fkey" FOREIGN KEY ("supplier") REFERENCES "suppliers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'supplier_payments_purchase_order_fkey' AND table_name = 'supplier_payments') THEN ALTER TABLE "supplier_payments" ADD CONSTRAINT "supplier_payments_purchase_order_fkey" FOREIGN KEY ("purchase_order") REFERENCES "purchase_orders" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: supplier_payments');
 
     // Foreign keys for product_inventory
-    await queryInterface.addConstraint('product_inventory', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'product_inventory_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('product_inventory', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'product_inventory_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_inventory_product_fkey' AND table_name = 'product_inventory') THEN ALTER TABLE "product_inventory" ADD CONSTRAINT "product_inventory_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_inventory_location_fkey' AND table_name = 'product_inventory') THEN ALTER TABLE "product_inventory" ADD CONSTRAINT "product_inventory_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: product_inventory');
 
     // Foreign keys for product_stock_movements
-    await queryInterface.addConstraint('product_stock_movements', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'product_stock_movements_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_stock_movements_product_fkey' AND table_name = 'product_stock_movements') THEN ALTER TABLE "product_stock_movements" ADD CONSTRAINT "product_stock_movements_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: product_stock_movements');
 
     // Foreign keys for stock_releases
-    await queryInterface.addConstraint('stock_releases', {
-      fields: ['from_location'],
-      type: 'foreign key',
-      name: 'stock_releases_from_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('stock_releases', {
-      fields: ['to_location'],
-      type: 'foreign key',
-      name: 'stock_releases_to_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_releases_from_location_fkey' AND table_name = 'stock_releases') THEN ALTER TABLE "stock_releases" ADD CONSTRAINT "stock_releases_from_location_fkey" FOREIGN KEY ("from_location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_releases_to_location_fkey' AND table_name = 'stock_releases') THEN ALTER TABLE "stock_releases" ADD CONSTRAINT "stock_releases_to_location_fkey" FOREIGN KEY ("to_location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: stock_releases');
 
     // Foreign keys for stock_release_items
-    await queryInterface.addConstraint('stock_release_items', {
-      fields: ['stock_release'],
-      type: 'foreign key',
-      name: 'stock_release_items_stock_release_fkey',
-      references: {
-        table: 'stock_releases',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('stock_release_items', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'stock_release_items_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_release_items_stock_release_fkey' AND table_name = 'stock_release_items') THEN ALTER TABLE "stock_release_items" ADD CONSTRAINT "stock_release_items_stock_release_fkey" FOREIGN KEY ("stock_release") REFERENCES "stock_releases" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'stock_release_items_product_fkey' AND table_name = 'stock_release_items') THEN ALTER TABLE "stock_release_items" ADD CONSTRAINT "stock_release_items_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: stock_release_items');
 
     // Foreign keys for job_sheet_products
-    await queryInterface.addConstraint('job_sheet_products', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'job_sheet_products_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('job_sheet_products', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'job_sheet_products_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheet_products_job_sheet_fkey' AND table_name = 'job_sheet_products') THEN ALTER TABLE "job_sheet_products" ADD CONSTRAINT "job_sheet_products_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'job_sheet_products_product_fkey' AND table_name = 'job_sheet_products') THEN ALTER TABLE "job_sheet_products" ADD CONSTRAINT "job_sheet_products_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: job_sheet_products');
 
     // Foreign keys for sales
-    await queryInterface.addConstraint('sales', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'sales_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('sales', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'sales_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('sales', {
-      fields: ['sold_by'],
-      type: 'foreign key',
-      name: 'sales_sold_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sales_customer_fkey' AND table_name = 'sales') THEN ALTER TABLE "sales" ADD CONSTRAINT "sales_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sales_location_fkey' AND table_name = 'sales') THEN ALTER TABLE "sales" ADD CONSTRAINT "sales_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sales_sold_by_fkey' AND table_name = 'sales') THEN ALTER TABLE "sales" ADD CONSTRAINT "sales_sold_by_fkey" FOREIGN KEY ("sold_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: sales');
 
     // Foreign keys for sale_items
-    await queryInterface.addConstraint('sale_items', {
-      fields: ['sale'],
-      type: 'foreign key',
-      name: 'sale_items_sale_fkey',
-      references: {
-        table: 'sales',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('sale_items', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'sale_items_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sale_items_sale_fkey' AND table_name = 'sale_items') THEN ALTER TABLE "sale_items" ADD CONSTRAINT "sale_items_sale_fkey" FOREIGN KEY ("sale") REFERENCES "sales" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sale_items_product_fkey' AND table_name = 'sale_items') THEN ALTER TABLE "sale_items" ADD CONSTRAINT "sale_items_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: sale_items');
 
     // Foreign keys for sale_payments
-    await queryInterface.addConstraint('sale_payments', {
-      fields: ['sale'],
-      type: 'foreign key',
-      name: 'sale_payments_sale_fkey',
-      references: {
-        table: 'sales',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('sale_payments', {
-      fields: ['received_by'],
-      type: 'foreign key',
-      name: 'sale_payments_received_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sale_payments_sale_fkey' AND table_name = 'sale_payments') THEN ALTER TABLE "sale_payments" ADD CONSTRAINT "sale_payments_sale_fkey" FOREIGN KEY ("sale") REFERENCES "sales" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sale_payments_received_by_fkey' AND table_name = 'sale_payments') THEN ALTER TABLE "sale_payments" ADD CONSTRAINT "sale_payments_received_by_fkey" FOREIGN KEY ("received_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: sale_payments');
 
     // Foreign keys for sale_refunds
-    await queryInterface.addConstraint('sale_refunds', {
-      fields: ['sale'],
-      type: 'foreign key',
-      name: 'sale_refunds_sale_fkey',
-      references: {
-        table: 'sales',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('sale_refunds', {
-      fields: ['processed_by'],
-      type: 'foreign key',
-      name: 'sale_refunds_processed_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sale_refunds_sale_fkey' AND table_name = 'sale_refunds') THEN ALTER TABLE "sale_refunds" ADD CONSTRAINT "sale_refunds_sale_fkey" FOREIGN KEY ("sale") REFERENCES "sales" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'sale_refunds_processed_by_fkey' AND table_name = 'sale_refunds') THEN ALTER TABLE "sale_refunds" ADD CONSTRAINT "sale_refunds_processed_by_fkey" FOREIGN KEY ("processed_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: sale_refunds');
 
     // Foreign keys for warranty_cards
-    await queryInterface.addConstraint('warranty_cards', {
-      fields: ['sale'],
-      type: 'foreign key',
-      name: 'warranty_cards_sale_fkey',
-      references: {
-        table: 'sales',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_cards', {
-      fields: ['sale_item'],
-      type: 'foreign key',
-      name: 'warranty_cards_sale_item_fkey',
-      references: {
-        table: 'sale_items',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_cards', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'warranty_cards_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_cards', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'warranty_cards_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_cards', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'warranty_cards_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_cards_sale_fkey' AND table_name = 'warranty_cards') THEN ALTER TABLE "warranty_cards" ADD CONSTRAINT "warranty_cards_sale_fkey" FOREIGN KEY ("sale") REFERENCES "sales" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_cards_sale_item_fkey' AND table_name = 'warranty_cards') THEN ALTER TABLE "warranty_cards" ADD CONSTRAINT "warranty_cards_sale_item_fkey" FOREIGN KEY ("sale_item") REFERENCES "sale_items" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_cards_product_fkey' AND table_name = 'warranty_cards') THEN ALTER TABLE "warranty_cards" ADD CONSTRAINT "warranty_cards_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_cards_customer_fkey' AND table_name = 'warranty_cards') THEN ALTER TABLE "warranty_cards" ADD CONSTRAINT "warranty_cards_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_cards_location_fkey' AND table_name = 'warranty_cards') THEN ALTER TABLE "warranty_cards" ADD CONSTRAINT "warranty_cards_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: warranty_cards');
 
     // Foreign keys for warranty_claims
-    await queryInterface.addConstraint('warranty_claims', {
-      fields: ['warranty_card'],
-      type: 'foreign key',
-      name: 'warranty_claims_warranty_card_fkey',
-      references: {
-        table: 'warranty_cards',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_claims', {
-      fields: ['job_sheet'],
-      type: 'foreign key',
-      name: 'warranty_claims_job_sheet_fkey',
-      references: {
-        table: 'job_sheets',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_claims', {
-      fields: ['replacement_product'],
-      type: 'foreign key',
-      name: 'warranty_claims_replacement_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_claims', {
-      fields: ['submitted_by'],
-      type: 'foreign key',
-      name: 'warranty_claims_submitted_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_claims', {
-      fields: ['assigned_to'],
-      type: 'foreign key',
-      name: 'warranty_claims_assigned_to_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('warranty_claims', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'warranty_claims_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_claims_warranty_card_fkey' AND table_name = 'warranty_claims') THEN ALTER TABLE "warranty_claims" ADD CONSTRAINT "warranty_claims_warranty_card_fkey" FOREIGN KEY ("warranty_card") REFERENCES "warranty_cards" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_claims_job_sheet_fkey' AND table_name = 'warranty_claims') THEN ALTER TABLE "warranty_claims" ADD CONSTRAINT "warranty_claims_job_sheet_fkey" FOREIGN KEY ("job_sheet") REFERENCES "job_sheets" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_claims_replacement_product_fkey' AND table_name = 'warranty_claims') THEN ALTER TABLE "warranty_claims" ADD CONSTRAINT "warranty_claims_replacement_product_fkey" FOREIGN KEY ("replacement_product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_claims_submitted_by_fkey' AND table_name = 'warranty_claims') THEN ALTER TABLE "warranty_claims" ADD CONSTRAINT "warranty_claims_submitted_by_fkey" FOREIGN KEY ("submitted_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_claims_assigned_to_fkey' AND table_name = 'warranty_claims') THEN ALTER TABLE "warranty_claims" ADD CONSTRAINT "warranty_claims_assigned_to_fkey" FOREIGN KEY ("assigned_to") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'warranty_claims_location_fkey' AND table_name = 'warranty_claims') THEN ALTER TABLE "warranty_claims" ADD CONSTRAINT "warranty_claims_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: warranty_claims');
 
     // Foreign keys for product_returns
-    await queryInterface.addConstraint('product_returns', {
-      fields: ['location'],
-      type: 'foreign key',
-      name: 'product_returns_location_fkey',
-      references: {
-        table: 'locations',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('product_returns', {
-      fields: ['customer'],
-      type: 'foreign key',
-      name: 'product_returns_customer_fkey',
-      references: {
-        table: 'customers',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('product_returns', {
-      fields: ['product'],
-      type: 'foreign key',
-      name: 'product_returns_product_fkey',
-      references: {
-        table: 'products',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
-    await queryInterface.addConstraint('product_returns', {
-      fields: ['created_by'],
-      type: 'foreign key',
-      name: 'product_returns_created_by_fkey',
-      references: {
-        table: 'users',
-        field: 'id',
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
-    });
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_returns_location_fkey' AND table_name = 'product_returns') THEN ALTER TABLE "product_returns" ADD CONSTRAINT "product_returns_location_fkey" FOREIGN KEY ("location") REFERENCES "locations" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_returns_customer_fkey' AND table_name = 'product_returns') THEN ALTER TABLE "product_returns" ADD CONSTRAINT "product_returns_customer_fkey" FOREIGN KEY ("customer") REFERENCES "customers" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_returns_product_fkey' AND table_name = 'product_returns') THEN ALTER TABLE "product_returns" ADD CONSTRAINT "product_returns_product_fkey" FOREIGN KEY ("product") REFERENCES "products" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
+    await queryInterface.sequelize.query(`DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'product_returns_created_by_fkey' AND table_name = 'product_returns') THEN ALTER TABLE "product_returns" ADD CONSTRAINT "product_returns_created_by_fkey" FOREIGN KEY ("created_by") REFERENCES "users" ("id") ON UPDATE CASCADE ON DELETE SET NULL; END IF; END $$;`);
     console.log('  ✓ Added foreign keys for: product_returns');
 
     console.log('\n✅ Initial schema created successfully!\n');

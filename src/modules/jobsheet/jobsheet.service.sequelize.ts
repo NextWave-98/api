@@ -21,7 +21,7 @@ import { PaymentMethod } from '../../enums';
 import {
   CreateJobSheetDTO,
   UpdateJobSheetDTO,
-  UpdateJobSheetStatusDTO,
+  UpdateJobSheetStatLKRTO,
   JobSheetQueryDTO,
   AddPartToJobSheetDTO,
   AddProductToJobSheetDTO,
@@ -734,7 +734,7 @@ export class JobSheetService {
   /**
    * Update job sheet status
    */
-  async updateJobSheetStatus(id: string, data: UpdateJobSheetStatusDTO) {
+  async updateJobSheetStatus(id: string, data: UpdateJobSheetStatLKRTO) {
     const transaction = await sequelize.transaction();
 
     try {
@@ -1157,7 +1157,7 @@ export class JobSheetService {
     ]);
 
     // Get status distribution
-    const statusDistribution = [
+    const statLKRistribution = [
       { status: 'PENDING', count: pendingCount },
       { status: 'IN_PROGRESS', count: inProgressCount },
       { status: 'COMPLETED', count: completedCount },
@@ -1225,7 +1225,7 @@ export class JobSheetService {
         monthlyDueBalance,
         averageCompletionTime: Math.round(averageCompletionTime * 100) / 100, // Round to 2 decimal places
       },
-      statusDistribution,
+      statLKRistribution,
       priorityDistribution,
       monthlyTrends,
     };

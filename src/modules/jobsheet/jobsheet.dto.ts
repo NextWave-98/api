@@ -243,7 +243,7 @@ export const printJobSheetSchema = z.object({
 
 export type CreateJobSheetDTO = z.infer<typeof createJobSheetSchema>['body'];
 export type UpdateJobSheetDTO = z.infer<typeof updateJobSheetSchema>['body'];
-export type UpdateJobSheetStatusDTO = z.infer<typeof updateJobSheetStatusSchema>['body'];
+export type UpdateJobSheetStatLKRTO = z.infer<typeof updateJobSheetStatusSchema>['body'];
 export type JobSheetQueryDTO = z.infer<typeof jobSheetQuerySchema>['query'];
 export type AddPartToJobSheetDTO = z.infer<typeof addPartToJobSheetSchema>['body'];
 export type AddProductToJobSheetDTO = z.infer<typeof addProductToJobSheetSchema>['body'];
