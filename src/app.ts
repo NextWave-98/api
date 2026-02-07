@@ -1,40 +1,24 @@
 import express, { Application } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import compression from 'compression';
 
 const app: Application = express();
 
 // Trust proxy for rate limiting behind reverse proxies
 app.set('trust proxy', 1);
 
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: false, // Disable CSP for API
-  crossOriginEmbedderPolicy: false
-}));
+// Simple CORS configuration for serverless
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
-// CORS configuration
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+    return;
+  }
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
+  next();
 });
-app.use('/api/', limiter);
-
-// Compression middleware
-app.use(compression());
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -84,4 +68,4 @@ app.use((error: any, req: express.Request, res: express.Response, next: express.
   });
 });
 
-export default app;
+export default app

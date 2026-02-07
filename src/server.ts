@@ -6,12 +6,12 @@ import app from './app';
 // Check if we're in Vercel/serverless environment
 const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
 
-// For Vercel serverless functions, export the app directly
 if (isVercel) {
   console.log('🚀 Running in Vercel serverless environment');
-  // Export the app immediately
-  module.exports = app;
 } else {
   // Traditional server startup for local development
   console.log('Running in traditional environment');
 }
+
+// Export the app for Vercel serverless functions
+export default app;
