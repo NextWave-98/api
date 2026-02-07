@@ -11,14 +11,14 @@ const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
 
 // For Vercel serverless functions, export the app directly
 if (isVercel) {
-  logger.info('🚀 Running in Vercel serverless environment');
+  console.log('🚀 Running in Vercel serverless environment');
 
   // Initialize database connection for serverless (don't block app startup)
   connectDatabase().then(() => {
-    logger.info('✅ Database connected successfully in serverless environment');
+    console.log('✅ Database connected successfully in serverless environment');
   }).catch((error) => {
-    logger.error('❌ Database connection failed in serverless environment:', error);
-    logger.warn('⚠️ API will start without database connection. Some endpoints may not work.');
+    console.error('❌ Database connection failed in serverless environment:', error);
+    console.warn('⚠️ API will start without database connection. Some endpoints may not work.');
   });
 
   // Export the app immediately - don't wait for database connection
