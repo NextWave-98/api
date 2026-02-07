@@ -2,9 +2,6 @@
 
 import 'reflect-metadata';
 import app from './app';
-import { config } from './shared/config/env';
-import logger from './shared/config/logger';
-import sequelize, { closeDatabase, connectDatabase } from './shared/config/database';
 
 // Check if we're in Vercel/serverless environment
 const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
@@ -12,57 +9,9 @@ const isVercel = process.env.VERCEL || process.env.VERCEL_ENV;
 // For Vercel serverless functions, export the app directly
 if (isVercel) {
   console.log('🚀 Running in Vercel serverless environment');
-
-  // Initialize database connection for serverless (don't block app startup)
-  connectDatabase().then(() => {
-    console.log('✅ Database connected successfully in serverless environment');
-  }).catch((error) => {
-    console.error('❌ Database connection failed in serverless environment:', error);
-    console.warn('⚠️ API will start without database connection. Some endpoints may not work.');
-  });
-
-  // Export the app immediately - don't wait for database connection
+  // Export the app immediately
   module.exports = app;
 } else {
   // Traditional server startup for local development
-  const PORT = Number(process.env.PORT) || config.port || 3000;
-
-  console.log('DEBUG: process.env.PORT =', process.env.PORT);
-  console.log('DEBUG: config.port =', config.port);
-  console.log('DEBUG: Final PORT =', PORT);
-  console.log('DEBUG: typeof PORT =', typeof PORT);
-
-  // Graceful shutdown
-  const gracefulShutdown = async () => {
-    logger.info('Received shutdown signal, closing server gracefully...');
-    await closeDatabase();
-    process.exit(0);
-  };
-
-  process.on('SIGTERM', gracefulShutdown);
-  process.on('SIGINT', gracefulShutdown);
-
-  // Start server
-  if (!PORT || isNaN(PORT)) {
-    console.error('❌ ERROR: PORT is invalid!', PORT);
-    process.exit(1);
-  }
-
-  const startServer = async () => {
-    try {
-      await connectDatabase();
-      logger.info('✅ Database connected successfully');
-
-      app.listen(PORT, '0.0.0.0', () => {
-        logger.info(`🚀 Server running on http://0.0.0.0:${PORT}`);
-        logger.info(`📍 Environment: ${config.nodeEnv}`);
-        logger.info(`🔗 Public URL: https://api-production-c186.up.railway.app/`);
-      });
-    } catch (error) {
-      logger.error('❌ Failed to start server:', error);
-      process.exit(1);
-    }
-  };
-
-  startServer();
+  console.log('Running in traditional environment');
 }
